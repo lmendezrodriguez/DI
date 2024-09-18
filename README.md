@@ -2,7 +2,7 @@
 
 ## Título e imagen de portada
 ![bj](https://github.com/user-attachments/assets/d3c254d6-82cb-4394-b500-6bef213f4362)
-<h1 align="center"> <em> Juego BlackJack </em> </h1>
+<h1 align="center"> <em> Galicia Secreta </em> </h1>
 
 ## Insignias
 
@@ -57,9 +57,9 @@ Proyecto en desarrollo para la creación de una app para jugar al BlackJack
 
 **Muestra las instrucciones necesarias para abrir y ejecutar el proyecto**
 
-## 👩‍💻 Personas contribuyentes
+## 👩‍💻 Personas Contribuyentes
 
-## 👩‍💻 Personas desarrolladoras
+## 👩‍💻 Personas Desarrolladoras
 
 ## Licencia
 
