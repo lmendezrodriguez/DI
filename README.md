@@ -56,3 +56,12 @@ Proyecto en desarrollo para la creación de una app para jugar al BlackJack
 ## 🛠️ Abre y ejecuta el proyecto
 
 **Muestra las instrucciones necesarias para abrir y ejecutar el proyecto**
+
+## 👩‍💻 Personas contribuyentes
+
+## 👩‍💻 Personas desarrolladoras
+
+## Licencia
+
+## Conclusión
+
