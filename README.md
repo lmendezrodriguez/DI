@@ -61,7 +61,7 @@ Proyecto en desarrollo para la creación de una app para jugar al BlackJack
 
 ## 👩‍💻 Personas Desarrolladoras
 
-## Licencia
+## 📜 Licencia
 
-## Conclusión
+## 📌 Conclusión
 
