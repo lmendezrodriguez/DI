@@ -1,7 +1,8 @@
 # DI
 
 ## Título e imagen de portada
-![Barcode Scanner Galicia](https://github.com/user-attachments/assets/d3c254d6-82cb-4394-b500-6bef213f4362)  
+<h1 align="center">![59bb8382-4aa6-4a2d-aa8b-6857f41187be](https://github.com/user-attachments/assets/6efaff97-2787-4a11-b424-9a0e5e214e87)</h1>
+
 <h1 align="center"> <em> Galicia Scan </em> </h1>
 
 ## Insignias
