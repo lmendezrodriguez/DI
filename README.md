@@ -74,12 +74,12 @@ git clone https://github.com/tuusuario/galicia_scanner.git
 
 ## 👩‍💻 Personas Contribuyentes
 
-- [Nombre del contribuyente](https://github.com/contribuyente1)
-- [Nombre del contribuyente](https://github.com/contribuyente2)
+- [Elaine Marley](https://github.com/contribuyente1)
+- [Thomas](https://github.com/contribuyente2)
 
 ## 👩‍💻 Personas Desarrolladoras
 
-- [Tu nombre](https://github.com/lmendezrodriguez)
+- [Lucía Méndez](https://github.com/lmendezrodriguez)
 
 ## 📜 Licencia
 
