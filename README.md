@@ -1,8 +1,9 @@
 # DI
 
 ## Título e imagen de portada
-<h1 align="center">![59bb8382-4aa6-4a2d-aa8b-6857f41187be](https://github.com/user-attachments/assets/6efaff97-2787-4a11-b424-9a0e5e214e87)</h1>
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/bf5559c6-2e2a-4f5b-aa17-d9801e634a5d" alt="Imagen1">
+</p>
 <h1 align="center"> <em> Galicia Scan </em> </h1>
 
 ## Insignias
