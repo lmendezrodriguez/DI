@@ -1,0 +1,7 @@
+# Ignorar carpetas específicas de PyCharm y otros IDEs
+# .idea es una carpeta generada por PyCharm que almacena configuraciones específicas del proyecto
+.idea/
+
+# Ignorar carpetas __pycache__ generadas por Python
+# __pycache__ contiene archivos compilados (.pyc) que no se deben incluir en el control de versiones
+__pycache__/

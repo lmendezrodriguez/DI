@@ -15,4 +15,3 @@ def division(num1, num2):
         print("No se puede dividir por cero.")
     else:
         return num1 / num2
-

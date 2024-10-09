@@ -1,6 +1,11 @@
-from Operaciones import suma, resta, multiplicacion, division
+from operaciones import suma, resta, multiplicacion, division
+
 
 def calculadora():
+    """
+
+    :return:
+    """
     opcion = "s"
     while opcion == "s":
         try:
@@ -17,15 +22,18 @@ def calculadora():
             elif opcion == 3:
                 print(f"{num1} * {num2} = {multiplicacion(num1, num2)}")
             elif opcion == 4:
-                print(f"{num1} / {num2} = {round(division(num1, num2),2)}")
+                print(f"{num1} / {num2} = {round(division(num1, num2), 2)}")
             else:
                 print("Opción no válida")
         except ValueError:
             print("Sólo válidas entradas numéricas")
         opcion = input("¿Quieres hacer más operaciones? (s: sí, n: no)\n").lower()
         while opcion not in ("s", "n"):
-            opcion = input("Entrada no válida, solo válida 's' o 'n'\n¿Quieres hacer más operaciones? (s: sí, n: no)\n").lower()
+            opcion = input(
+                "Entrada no válida, solo válida 's' o 'n'\n¿Quieres hacer más operaciones? (s: sí, n: no)\n").lower()
         if opcion == "n":
             print("Gracias por usar la calculadora. ¡Chauuu!")
 
-calculadora()
+
+if __name__ == "__main__":
+    calculadora()
