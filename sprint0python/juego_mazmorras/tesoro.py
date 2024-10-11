@@ -45,6 +45,6 @@ class Tesoro:
             print(f"La defensa actual de {heroe.nombre} es {heroe.defensa}.")
 
         elif beneficio_nombre == self.beneficio[2]:  # Restauración de salud
-            heroe.salud = heroe._salud_maxima
+            heroe.salud = heroe._SALUD_MAXIMA
             print(
                 f"La salud de {heroe.nombre} ha sido restaurada a {heroe.salud}.")
