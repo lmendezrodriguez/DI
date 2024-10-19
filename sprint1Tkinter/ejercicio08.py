@@ -25,19 +25,19 @@ root.title("Ejemplo de Frame")
 root.geometry("300x200")
 
 # Crear frame para Labels y Entry
-frame_1 = tk.Frame(root, bg="white", bd=2, relief="sunken")
+frame_1 = tk.Frame(root, bd=2, relief="sunken")
 frame_1.pack(padx=5, pady=5, fill="both", expand=True)
 
 # Crear y configurar Labels y Entry
 etiqueta_titulo_frame = tk.Label(frame_1, text="Escribe abajo:")
 etiqueta_titulo_frame.pack(pady=5)
-entrada = tk.Entry(frame_1, width=30, bg="grey")
+entrada = tk.Entry(frame_1, width=30, bg="white")
 entrada.pack(pady=5)
-etiqueta_texto_frame = tk.Label(frame_1, text="", bg="white")
+etiqueta_texto_frame = tk.Label(frame_1, text="")
 etiqueta_texto_frame.pack(pady=5)
 
 # Crear y configurar frame 2
-frame_2 = tk.Frame(root, bg="white", bd=2, relief="sunken")
+frame_2 = tk.Frame(root, bd=2, relief="sunken")
 frame_2.pack(padx=5, pady=5, fill="both", expand=True)
 
 # Crear y configurar botones
