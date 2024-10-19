@@ -3,9 +3,10 @@ import tkinter as tk
 
 def mostrar_seleccion():
     """
-     Muestra en un label las opciones seleccionadas o no seleccionadas
-     en los checkbutton.
-     """
+    Muestra en una etiqueta las opciones seleccionadas o no seleccionadas
+    en los Checkbuttons.
+    """
+    # Obtener el estado de cada Checkbutton
     seleccion_leer = var_check_leer.get()
     estado_leer = "Seleccionado" if seleccion_leer else "No seleccionado"
 
@@ -15,8 +16,9 @@ def mostrar_seleccion():
     seleccion_music = var_check_music.get()
     estado_music = "Seleccionado" if seleccion_music else "No seleccionado"
 
-    etiqueta_aficciones.config(text=f"Leer - {estado_leer} \nDeporte  - "
-                                    f"{estado_dep}\nMúsica  - {estado_music}")
+    # Actualizar el texto de la etiqueta con el estado de las aficiones
+    etiqueta_aficciones.config(text=f"Leer - {estado_leer} \nDeporte - "
+                                     f"{estado_dep}\nMúsica - {estado_music}")
 
 
 # Crear ventana principal
@@ -24,7 +26,7 @@ root = tk.Tk()
 root.title("Ejemplo de Checkbutton")
 root.geometry("300x200")
 
-# Crear etiqueta de menú de Checkbutton
+# Crear etiqueta de menú de Checkbuttons
 etiqueta_chk_button = tk.Label(root, text="Aficciones", pady=5)
 etiqueta_chk_button.pack()
 
@@ -44,8 +46,9 @@ check_music = tk.Checkbutton(root, text="Música", variable=var_check_music,
                              command=mostrar_seleccion)
 check_music.pack()
 
-# Etiqueta que refleja los Checkbutton seleccionados
+# Etiqueta que refleja los Checkbuttons seleccionados
 etiqueta_aficciones = tk.Label(root, text="", pady=5)
 etiqueta_aficciones.pack()
 
+# Iniciar el bucle principal de la interfaz gráfica
 root.mainloop()
