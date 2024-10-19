@@ -27,37 +27,36 @@ def dibujar_formas():
     canvas.create_rectangle(x1_rect, y1_rect, x2_rect, y2_rect,
                             outline="red", width=2)
 
-
 # Crear la ventana principal
 root = tk.Tk()
 root.title("Ejemplo de Canvas y formas")
 
 # Crear un Canvas donde dibujaremos las formas
 canvas = tk.Canvas(root, width=400, height=400, bg="white")
-canvas.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
+canvas.grid(row=0, column=0, columnspan=5, padx=10, pady=10)
 
 # Etiquetas y campos de entrada para el círculo
 tk.Label(root, text="Círculo (x1, y1, x2, y2):").grid(row=1, column=0, padx=5,
                                                       pady=5)
-entry_x1_circle = tk.Entry(root)
+entry_x1_circle = tk.Entry(root, width=3)
 entry_x1_circle.grid(row=1, column=1)
-entry_y1_circle = tk.Entry(root)
+entry_y1_circle = tk.Entry(root, width=3)
 entry_y1_circle.grid(row=1, column=2)
-entry_x2_circle = tk.Entry(root)
+entry_x2_circle = tk.Entry(root, width=3)
 entry_x2_circle.grid(row=1, column=3)
-entry_y2_circle = tk.Entry(root)
+entry_y2_circle = tk.Entry(root, width=3)
 entry_y2_circle.grid(row=1, column=4)
 
 # Etiquetas y campos de entrada para el rectángulo
 tk.Label(root, text="Rectángulo (x1, y1, x2, y2):").grid(row=2, column=0,
                                                          padx=5, pady=5)
-entry_x1_rect = tk.Entry(root)
+entry_x1_rect = tk.Entry(root, width=3)
 entry_x1_rect.grid(row=2, column=1)
-entry_y1_rect = tk.Entry(root)
+entry_y1_rect = tk.Entry(root, width=3)
 entry_y1_rect.grid(row=2, column=2)
-entry_x2_rect = tk.Entry(root)
+entry_x2_rect = tk.Entry(root, width=3)
 entry_x2_rect.grid(row=2, column=3)
-entry_y2_rect = tk.Entry(root)
+entry_y2_rect = tk.Entry(root, width=3)
 entry_y2_rect.grid(row=2, column=4)
 
 # Botón para dibujar las formas
