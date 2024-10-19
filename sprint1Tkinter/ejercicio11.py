@@ -2,7 +2,7 @@ import tkinter as tk
 
 def actualizar_valor(val):
     """
-    Actuliza el valor de etiqueta según la selección en el Scale
+    Actualiza el valor de etiqueta según la selección en el Scale
     """
     etiqueta.config(text=f"Valor: {val}")
 
