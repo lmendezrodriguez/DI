@@ -1,8 +1,9 @@
 import tkinter as tk
 
+
 def insertar_texto():
     """
-    Crea texto para probar scroll
+    Crear texto para probar la scrollbar
     """
     for i in range(1, 101):
         cuadro_texto.insert(tk.END, f"Línea {i}\n")
@@ -22,7 +23,8 @@ cuadro_texto = tk.Text(frame, wrap="none")
 cuadro_texto.grid(row=0, column=0, sticky="nsew")
 
 # Crear Scrollbar vertical
-scroll_vert = tk.Scrollbar(frame, orient="vertical",command=cuadro_texto.yview)
+scroll_vert = tk.Scrollbar(frame, orient="vertical",
+                           command=cuadro_texto.yview)
 scroll_vert.grid(row=0, column=1, sticky="ns")
 cuadro_texto.config(yscrollcommand=scroll_vert.set)
 
