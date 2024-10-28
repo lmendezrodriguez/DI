@@ -1,0 +1,15 @@
+# Ignorar carpetas de configuración de IDEs
+**/.idea/
+.idea/
+**/__pycache__/
+__pycache__/
+.venv
+**/.venv/
+
+# Ignorar archivos de configuración de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar archivos de compilación o temporales
+*.log
+*.tmp
