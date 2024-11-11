@@ -50,3 +50,42 @@ class MainMenu:
             else:
                 # Se ingresó un nombre válido
                 return player_name
+
+class GameView:
+    def __init__(self, root, on_card_click_callback, update_move_count_callback,
+             update_time_callback):
+        self.root = root
+        self.window = tk.Toplevel(self.root)
+        self.window.geometry("500x500")
+        self.window.title("Memoriza las cartas")
+        self.labels = {}
+        self.on_card_click_callback = on_card_click_callback
+        self.update_move_count_callback = update_move_count_callback
+        self.update_time_callback = update_time_callback
+
+    def create_board(self, model):
+        # Obtener el tamaño del tablero del modelo
+        board_size = len(model.board)
+
+        # Crear una cuadrícula de etiquetas (Labels) en la ventana
+        for row in range(board_size):
+            for col in range(board_size):
+                # Crear la imagen oculta (imagen del reverso de la carta)
+                image = model.hidden  # La imagen de reverso de la carta
+
+                # Crear el label y asignar la imagen oculta al inicio
+                label = tk.Label(self.window, image=image)
+                label.grid(row=row, column=col, padx=5, pady=5)
+
+                # Asociar el índice de la carta con el label para identificarla
+                label.image_id = model.board[row][col]
+
+                # Añadir un evento al hacer clic en cada carta
+                label.bind("<Button-1>", lambda e, r=row,
+                                                c=col: self.on_card_click_callback(
+                    r, c))
+
+                # Guardar la referencia del label en un diccionario con su posición
+                self.labels[(row, col)] = label
+
+
