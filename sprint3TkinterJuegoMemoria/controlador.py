@@ -1,8 +1,8 @@
 import tkinter as tk
-from tkinter import Radiobutton, Button, messagebox
+from tkinter import Radiobutton, Button, messagebox, ttk
 
 from modelo import GameModelo
-from vista import MainMenu
+from vista import MainMenu, GameView
 
 
 class GameController:
@@ -12,6 +12,7 @@ class GameController:
 
         :param root: Referencia a la ventana principal de Tkinter.
         """
+        self.game_view = None
         self.root = root
         self.model = GameModelo  # Suponiendo que se inicializará el modelo en otro momento
         self.selected = []
@@ -40,10 +41,14 @@ class GameController:
                                      "No has seleccionado ningún nombre.")
             else:
                 self.model = GameModelo(self.selected_difficulty, player_name)
+                self.show_loading_window("Cargando tablero")
+                print(self.model.images_loaded)
+                # Crear vista del juego
+
         else:
             messagebox.showerror("Error",
                                  "No has seleccionado ninguna dificultad.")
-        #print(self.model.__str__())
+
         # self.game_view = GameView(...)
 
     def show_stats(self):
@@ -65,14 +70,15 @@ class GameController:
         label = tk.Label(difficulty_toplevel,
                          text="Selecciona la dificultad")
         label.pack(pady=5)
-        var_difficulty = tk.StringVar()
-        var_difficulty.set("fácil")
+        var_difficulty = tk.IntVar()
+        var_difficulty.set(1)
         Radiobutton(difficulty_toplevel, text="Fácil", variable=var_difficulty,
-                    value="fácil").pack(pady=5)
+                    value=1).pack(pady=5)
         Radiobutton(difficulty_toplevel, text="Medio", variable=var_difficulty,
-                    value="medio").pack(pady=5)
-        Radiobutton(difficulty_toplevel, text="Difícil", variable=var_difficulty,
-                    value="difícil").pack(pady=5)
+                    value=2).pack(pady=5)
+        Radiobutton(difficulty_toplevel, text="Difícil",
+                    variable=var_difficulty,
+                    value=3).pack(pady=5)
 
         # Función para capturar el valor y cerrar el diálogo
         def choose_difficulty():
@@ -88,3 +94,56 @@ class GameController:
 
         # Espera a que el diálogo se cierre antes de continuar
         difficulty_toplevel.wait_window()
+
+    def show_loading_window(self, message):
+        # Crear la ventana de carga
+        loading_window = tk.Toplevel(self.root)
+        loading_window.title("Cargando")
+        loading_window.geometry("250x100")
+
+        # Prevenir interacción con la ventana principal
+        loading_window.grab_set()
+
+        # Crear el mensaje de carga
+        label = tk.Label(loading_window, text=message)
+        label.pack(pady=20)
+
+        # Crear un progress bar
+        progress = ttk.Progressbar(loading_window, mode="indeterminate")
+        progress.pack(pady=10, padx=20)
+        progress.start()
+
+        # Función para cerrar la ventana de carga una vez que las imágenes estén listas
+        def check_images_loaded():
+            if self.model.images_loaded:  # Verifica si las imágenes están cargadas
+                loading_window.destroy()
+                self.game_view = GameView(self.root, self.on_card_click,
+                                          self.update_move_count,
+                                          self.update_time)
+                self.game_view.create_board(self.model)
+            else:
+                loading_window.after(500,
+                                     check_images_loaded)  # Reintenta cada 500ms
+
+        check_images_loaded()
+
+    def on_card_click(self, pos):
+        pass
+
+    def handle_card_selection(self):
+        pass
+
+    def update_move_count(self, moves):
+        pass
+
+    def check_game_complete(self):
+        pass
+
+    def return_to_main_menu(self):
+        pass
+
+    def show_stats(self):
+        pass
+
+    def update_time(self, time):
+        pass
