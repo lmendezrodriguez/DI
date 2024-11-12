@@ -29,7 +29,6 @@ class GameController:
 
     def start_game(self):
         """Inicia una nueva partida."""
-        print("Iniciando el juego...")
 
         # Mostrar la selección de dificultad y esperar a que el usuario seleccione
         self.show_difficulty_selection()
@@ -37,19 +36,31 @@ class GameController:
         # Si existe un nombre de jugador y dificultad seleccionada, crear el modelo del juego
         if self.selected_difficulty is not None:
             player_name = self.main_menu.ask_player_name()  # Solicita el nombre del jugador
-            print(player_name)
             if player_name is None:
-                messagebox.showerror("Error", "No has seleccionado ningún nombre.")
+                messagebox.showerror("Error",
+                                     "No has seleccionado ningún nombre.")
             else:
-                self.model = GameModelo(self.selected_difficulty, player_name)  # Crear el modelo con los datos seleccionados
-                self.show_loading_window("Cargando tablero")  # Muestra la ventana de carga
+                self.model = GameModelo(self.selected_difficulty,
+                                        player_name)  # Crear el modelo con los datos seleccionados
+                self.show_loading_window(
+                    "Cargando tablero")  # Muestra la ventana de carga
                 self.check_images_loaded()  # Revisa si las imágenes están cargadas
-                self.root.wait_window(self.loading_window)  # Espera hasta que la ventana de carga se cierre
-                self.game_view = GameView(self.root, self.on_card_click, self.update_move_count, self.update_time)  # Vista del juego
-                self.game_view.create_board(self.model)  # Crea el tablero en la vista
+                self.root.wait_window(
+                    self.loading_window)  # Espera hasta que la ventana de carga se cierre
+                self.timer_started = True
+                self.game_view = GameView(self.root, self.on_card_click,
+                                          self.update_move_count,
+                                          self.update_time)  # Vista del juego
+                self.game_view.window.protocol("WM_DELETE_WINDOW",
+                                               self.return_to_main_menu)
                 self.root.withdraw()  # Oculta la ventana principal mientras juega
+                self.game_view.create_board(
+                    self.model)  # Crea el tablero en la vista
+
+
         else:
-            messagebox.showerror("Error", "No has seleccionado ninguna dificultad.")
+            messagebox.showerror("Error",
+                                 "No has seleccionado ninguna dificultad.")
 
     def show_stats(self):
         """Muestra las estadísticas de juego."""
@@ -67,25 +78,33 @@ class GameController:
         Crea una ventana emergente para que el jugador seleccione una dificultad entre
         fácil, medio y difícil.
         """
-        difficulty_toplevel = tk.Toplevel(self.root)  # Crea una nueva ventana emergente
-        difficulty_toplevel.geometry("200x200")  # Establece el tamaño de la ventana
-        label = tk.Label(difficulty_toplevel, text="Selecciona la dificultad")  # Etiqueta informativa
+        difficulty_toplevel = tk.Toplevel(
+            self.root)  # Crea una nueva ventana emergente
+        difficulty_toplevel.geometry(
+            "200x200")  # Establece el tamaño de la ventana
+        label = tk.Label(difficulty_toplevel,
+                         text="Selecciona la dificultad")  # Etiqueta informativa
         label.pack(pady=5)
 
         var_difficulty = tk.IntVar()  # Variable para almacenar la selección
         var_difficulty.set(1)  # Valor por defecto (fácil)
 
         # Radiobuttons para elegir la dificultad
-        Radiobutton(difficulty_toplevel, text="Fácil", variable=var_difficulty, value=1).pack(pady=5)
-        Radiobutton(difficulty_toplevel, text="Medio", variable=var_difficulty, value=2).pack(pady=5)
-        Radiobutton(difficulty_toplevel, text="Difícil", variable=var_difficulty, value=3).pack(pady=5)
+        Radiobutton(difficulty_toplevel, text="Fácil", variable=var_difficulty,
+                    value=1).pack(pady=5)
+        Radiobutton(difficulty_toplevel, text="Medio", variable=var_difficulty,
+                    value=2).pack(pady=5)
+        Radiobutton(difficulty_toplevel, text="Difícil",
+                    variable=var_difficulty, value=3).pack(pady=5)
 
         def choose_difficulty():
             """Asigna la dificultad elegida y cierra la ventana emergente."""
             self.selected_difficulty = var_difficulty.get()
             difficulty_toplevel.destroy()  # Cierra el diálogo
 
-        Button(difficulty_toplevel, text="Elegir", command=choose_difficulty).pack(pady=5)  # Botón para confirmar la selección
+        Button(difficulty_toplevel, text="Elegir",
+               command=choose_difficulty).pack(
+            pady=5)  # Botón para confirmar la selección
         difficulty_toplevel.grab_set()  # Hace que la ventana de selección de dificultad sea modal (bloquea la ventana principal)
         difficulty_toplevel.wait_window()  # Espera a que se cierre la ventana
 
@@ -117,7 +136,8 @@ class GameController:
         if self.model.images_loaded:  # Si las imágenes están cargadas
             self.loading_window.destroy()  # Cierra la ventana de carga
         else:
-            self.loading_window.after(500, self.check_images_loaded)  # Reintenta después de 500ms
+            self.loading_window.after(500,
+                                      self.check_images_loaded)  # Reintenta después de 500ms
 
     def on_card_click(self, pos):
         """
@@ -125,13 +145,33 @@ class GameController:
 
         :param pos: La posición de la carta seleccionada en el tablero.
         """
-        pass
+        self.model.start_timer()
+        self.update_time()
+        if len(self.selected) < 1:
+            self.selected.append(pos)
+            image_id = self.model.board[pos[0]][pos[1]]
+            image = self.model.images.get(image_id)
+            self.game_view.update_board(pos, image)
+        elif len(self.selected) == 1:
+            self.selected.append(pos)
+            image_id = self.model.board[pos[0]][pos[1]]
+            image = self.model.images.get(image_id)
+            self.game_view.update_board(pos, image)
+            self.handle_card_selection()
+            self.model.moves += 1
+            self.update_move_count(self.model.moves)
+            self.selected.clear()
 
     def handle_card_selection(self):
         """
         Maneja la selección de una carta por parte del jugador.
         """
-        pass
+        if not self.model.check_match(self.selected[0], self.selected[1]):
+            self.game_view.window.after(1000, self.game_view.reset_cards,
+                                 self.selected[0], self.selected[1])
+        else:
+            pass
+
 
     def update_move_count(self, moves):
         """
@@ -139,7 +179,8 @@ class GameController:
 
         :param moves: El número de movimientos realizados hasta el momento.
         """
-        pass
+        self.game_view.move_counter.config(
+            text=f"Movimiento: {moves}")
 
     def check_game_complete(self):
         """
@@ -150,15 +191,40 @@ class GameController:
         pass
 
     def return_to_main_menu(self):
-        """
-        Vuelve al menú principal.
-        """
-        pass
+        self.destroy()  # Cierra la ventana Toplevel
+        self.root.deiconify()
 
-    def update_time(self, time):
+    def update_time(self):
         """
         Actualiza el tiempo de juego.
 
         :param time: El tiempo transcurrido desde el inicio del juego.
         """
-        pass
+        if self.timer_started:
+            current_time = self.model.get_time()  # Obtiene el tiempo transcurrido desde el modelo
+            self.game_view.update_time(
+                current_time)  # Actualiza la vista con el tiempo actual
+
+            # Repite la llamada a este método después de 1 segundo en un nuevo hilo
+            self.root.after(1000, self.update_time)  # Llama cada 1 segundo
+
+    def destroy(self):
+        """
+        Cierra la ventana del juego y restablece los recursos y la interfaz.
+        """
+        # 1. Cerrar la ventana del juego
+        if self.game_view is not None:
+            self.game_view.window.destroy()
+
+        # # 2. Liberar recursos del modelo
+        # if self.model is not None:
+        #     self.model.reset()
+
+        # 3. Restablecer variables del juego
+        self.selected = []  # Limpiar selecciones de cartas
+        self.timer_started = False  # Detener el temporizador
+
+        # 4. Mostrar la ventana principal
+        self.root.deiconify()  # Hacer visible la ventana principal
+
+
