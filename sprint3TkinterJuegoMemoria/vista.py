@@ -15,8 +15,9 @@ class MainMenu:
         :param quit_callback: Función a ejecutar cuando se haga clic en el botón "Salir".
         """
         self.root = root
-        self.root.title("Memoriza las cartas!")
-        self.root.geometry("400x600")
+        self.root.title(
+            "Memoriza las cartas!")  # Título de la ventana principal
+        self.root.geometry("400x600")  # Tamaño de la ventana
 
         # Crear el botón "Jugar" y enlazarlo con el callback para iniciar el juego
         play_button = tk.Button(root, text="Jugar",
@@ -33,59 +34,83 @@ class MainMenu:
         quit_button.pack(pady=10)
 
     def ask_player_name(self):
-        """Lanza un diálogo para introducir el nombre de la jugadora
-        :return: El nombre ingresado por la jugadora o None si se cancela el diálogo.
+        """
+        Lanza un cuadro de diálogo para que el jugador ingrese su nombre.
+
+        :return: El nombre ingresado o None si el jugador cancela el diálogo.
         """
         while True:
+            # Mostrar un cuadro de diálogo para ingresar el nombre
             player_name = simpledialog.askstring("Nombre de jugador",
                                                  "Teclea tu nombre:",
                                                  initialvalue="Guybrush")
+
             if player_name is None:
-                # El usuario canceló y se devuelve None
+                # Si el jugador cancela, se retorna None
                 return None
             elif len(player_name) < 1:
-                # El nombre está vacío, se muestra un mensaje de error
+                # Si el nombre está vacío, se muestra un error
                 messagebox.showerror("Error",
                                      "El nombre no puede estar vacío. Por favor, ingresa un nombre.")
             else:
-                # Se ingresó un nombre válido
+                # Si el nombre es válido, se retorna el nombre ingresado
                 return player_name
 
+
 class GameView:
-    def __init__(self, root, on_card_click_callback, update_move_count_callback,
-             update_time_callback):
+    def __init__(self, root, on_card_click_callback,
+                 update_move_count_callback, update_time_callback):
+        """
+        Inicializa la vista del juego.
+
+        :param root: Referencia a la ventana principal de Tkinter.
+        :param on_card_click_callback: Función que se llama cuando se hace clic en una carta.
+        :param update_move_count_callback: Función que se llama para actualizar el contador de movimientos.
+        :param update_time_callback: Función que se llama para actualizar el temporizador.
+        """
         self.root = root
-        self.window = tk.Toplevel(self.root)
-        self.window.geometry("500x500")
-        self.window.title("Memoriza las cartas")
-        self.labels = {}
-        self.on_card_click_callback = on_card_click_callback
-        self.update_move_count_callback = update_move_count_callback
-        self.update_time_callback = update_time_callback
+        self.window = tk.Toplevel(
+            self.root)  # Crea una ventana secundaria para el juego
+        self.window.geometry("500x500")  # Tamaño de la ventana de juego
+        self.window.title(
+            "Memoriza las cartas")  # Título de la ventana de juego
+        self.labels = {}  # Diccionario para almacenar las cartas en el tablero
+        self.on_card_click_callback = on_card_click_callback  # Callback cuando se hace clic en una carta
+        self.update_move_count_callback = update_move_count_callback  # Callback para actualizar el contador de movimientos
+        self.update_time_callback = update_time_callback  # Callback para actualizar el temporizador
 
     def create_board(self, model):
-        # Obtener el tamaño del tablero del modelo
-        board_size = len(model.board)
+        """
+        Crea el tablero de juego y coloca las cartas en la ventana.
 
-        # Crear una cuadrícula de etiquetas (Labels) en la ventana
+        :param model: El modelo del juego, que contiene los datos del tablero y las imágenes.
+        """
+        board_size = len(model.board)  # Tamaño del tablero
+
+        # Crear una cuadrícula de etiquetas (Labels) en la ventana para representar las cartas
         for row in range(board_size):
             for col in range(board_size):
-                # Crear la imagen oculta (imagen del reverso de la carta)
-                image = model.hidden  # La imagen de reverso de la carta
+                # Obtener la imagen oculta para representar el reverso de la carta
+                image = model.hidden
 
-                # Crear el label y asignar la imagen oculta al inicio
+                # Crear el label para la carta, asociando la imagen oculta inicialmente
                 label = tk.Label(self.window, image=image)
                 label.grid(row=row, column=col, padx=5, pady=5)
 
-                # Asociar el índice de la carta con el label para identificarla
+                # Asociar un identificador único (ID de la carta) al label
                 label.image_id = model.board[row][col]
 
-                # Añadir un evento al hacer clic en cada carta
-                label.bind("<Button-1>", lambda e, r=row,
-                                                c=col: self.on_card_click_callback(
-                    r, c))
+                # Asociar la acción de hacer clic en la carta con el callback
+                label.bind("<Button-1>",
+                           lambda e, r=row, c=col: self.on_card_click_callback(
+                               r, c))
 
-                # Guardar la referencia del label en un diccionario con su posición
+                # Almacenar el label en el diccionario con su posición en el tablero
                 self.labels[(row, col)] = label
 
-
+        # Añadir etiquetas para mostrar el contador de movimientos y el temporizador
+        move_counter = tk.Label(self.window, text="Contador")
+        move_counter.grid(row=board_size, column=0, columnspan=board_size // 2)
+        timer = tk.Label(self.window, text="Temporizador")
+        timer.grid(row=board_size, column=board_size // 2,
+                   columnspan=board_size // 2)
