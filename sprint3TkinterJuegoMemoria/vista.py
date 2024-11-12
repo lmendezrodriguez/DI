@@ -68,6 +68,9 @@ class GameView:
         :param update_move_count_callback: Función que se llama para actualizar el contador de movimientos.
         :param update_time_callback: Función que se llama para actualizar el temporizador.
         """
+        self.hidden_image = None
+        self.timer = None
+        self.move_counter = None
         self.root = root
         self.window = tk.Toplevel(
             self.root)  # Crea una ventana secundaria para el juego
@@ -91,10 +94,10 @@ class GameView:
         for row in range(board_size):
             for col in range(board_size):
                 # Obtener la imagen oculta para representar el reverso de la carta
-                image = model.hidden
+                self.hidden_image = model.hidden
 
                 # Crear el label para la carta, asociando la imagen oculta inicialmente
-                label = tk.Label(self.window, image=image)
+                label = tk.Label(self.window, image=self.hidden_image)
                 label.grid(row=row, column=col, padx=5, pady=5)
 
                 # Asociar un identificador único (ID de la carta) al label
@@ -103,14 +106,61 @@ class GameView:
                 # Asociar la acción de hacer clic en la carta con el callback
                 label.bind("<Button-1>",
                            lambda e, r=row, c=col: self.on_card_click_callback(
-                               r, c))
+                               (r, c)))
 
                 # Almacenar el label en el diccionario con su posición en el tablero
                 self.labels[(row, col)] = label
 
         # Añadir etiquetas para mostrar el contador de movimientos y el temporizador
-        move_counter = tk.Label(self.window, text="Contador")
-        move_counter.grid(row=board_size, column=0, columnspan=board_size // 2)
-        timer = tk.Label(self.window, text="Temporizador")
-        timer.grid(row=board_size, column=board_size // 2,
+        self.move_counter = tk.Label(self.window, text="Movimientos: 0")
+        self.move_counter.grid(row=board_size, column=0, columnspan=board_size // 2)
+        self.timer = tk.Label(self.window, text="00:00")
+        self.timer.grid(row=board_size, column=board_size // 2,
                    columnspan=board_size // 2)
+
+    def update_board(self, pos, image):
+        """
+        Actualiza la imagen de una carta en una posición específica (pos), configurando la imagen
+        correspondiente según el image_id proporcionado.
+
+        :param pos: La posición de la carta en el tablero.
+        :param image: El identificador de la imagen a mostrar en esa posición.
+        """
+        self.labels.get(pos).config(image=image)
+
+
+    def reset_cards(self, pos1, pos2):
+        """
+        Restaura las imágenes de dos cartas a su estado oculto, útil cuando el jugador no encuentra
+        una coincidencia entre dos cartas seleccionadas.
+
+        :param pos1: La posición de la primera carta a restaurar.
+        :param pos2: La posición de la segunda carta a restaurar.
+        """
+        self.labels.get(pos1).config(image=self.hidden_image)
+        self.labels.get(pos2).config(image=self.hidden_image)
+
+    def update_move_count(self, moves):
+        """
+        Actualiza el contador de movimientos en la interfaz, modificando el texto de la etiqueta
+        que muestra los movimientos actuales.
+
+        :param moves: El número actual de movimientos realizados por el jugador.
+        """
+        pass
+
+    def update_time(self, time):
+        """
+        Actualiza el temporizador en la interfaz para reflejar el tiempo transcurrido.
+
+        :param time: El tiempo transcurrido que se mostrará en el temporizador.
+        """
+        self.timer.config(text=time)
+
+    def destroy(self):
+        """
+        Cierra la ventana del tablero y limpia los elementos almacenados en labels.
+        Esto es útil para restablecer la interfaz al terminar el juego o al regresar
+        al menú principal.
+        """
+        pass
