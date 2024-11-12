@@ -1,7 +1,6 @@
 import threading
-import time
 import random
-import datetime
+import time
 from tkinter import messagebox
 
 import recursos
@@ -21,7 +20,7 @@ class GameModelo:
         self.difficulty = difficulty
         self.player_name = player_name
         self.cell_size = cell_size
-        self.start_time = datetime.datetime.now()  # Guarda el tiempo de inicio
+        self.start_time = None # Guarda el tiempo de inicio
         self.moves = 0  # Contador de movimientos
         self.board = []  # Tablero vacío
         self.hidden = None  # Imagen oculta inicial
@@ -97,21 +96,23 @@ class GameModelo:
         """
         return self.images_loaded
 
-    def start_time(self):
-        """
-        Devuelve el tiempo de inicio del juego (actualmente no implementado).
-
-        :return: El tiempo de inicio.
-        """
-        pass
+    def start_timer(self):
+        if self.start_time is None:
+            self.start_time = time.time()  # Guardamos el tiempo de inicio al comenzar el juego
 
     def get_time(self):
         """
-        Devuelve el tiempo transcurrido desde el inicio del juego (actualmente no implementado).
+        Devuelve el tiempo transcurrido desde el inicio del juego.
 
         :return: El tiempo transcurrido en segundos.
         """
-        pass
+        if self.start_time is None:
+            return "00:00"  # Si el temporizador no ha comenzado aún, devolvemos 00:00
+
+        elapsed_time = time.time() - self.start_time  # Calcula el tiempo transcurrido en segundos
+        minutes = int(elapsed_time // 60)  # Extrae los minutos
+        seconds = int(elapsed_time % 60)  # Extrae los segundos
+        return f"{minutes:02}:{seconds:02}"  # Formatea la cadena como MM:SS (con ceros a la izquierda)
 
     def check_match(self, pos1, pos2):
         """
@@ -122,7 +123,9 @@ class GameModelo:
 
         :return: True si las cartas coinciden, False en caso contrario.
         """
-        pass
+        if self.board[pos1[0]][pos1[1]] == self.board[pos2[0]][pos2[1]]:
+            return True
+        return False
 
     def is_game_complete(self):
         """
