@@ -1,3 +1,4 @@
+import json
 import tkinter as tk
 from tkinter import Radiobutton, Button, messagebox, ttk
 
@@ -64,8 +65,8 @@ class GameController:
 
     def show_stats(self):
         """Muestra las estadísticas de juego."""
-        print("Mostrando estadísticas...")
-        # TODO: Implementar la visualización de estadísticas
+
+        messagebox.showinfo("Estadísticas", self.load_scores())
 
     def quit_game(self):
         """Cierra la aplicación."""
@@ -131,7 +132,7 @@ class GameController:
     def check_images_loaded(self):
         """
         Verifica si las imágenes del juego han sido cargadas.
-        Si están cargadas, cierra la ventana de carga, si no, reintenta cada 500ms.
+        Si están cargadas, cierra la ventana de carga, si no, reintenta cada 500 ms.
         """
         if self.model.images_loaded:  # Si las imágenes están cargadas
             self.loading_window.destroy()  # Cierra la ventana de carga
@@ -147,20 +148,16 @@ class GameController:
         """
         self.model.start_timer()
         self.update_time()
-        if len(self.selected) < 1:
+        if len(self.selected) <= 1:
             self.selected.append(pos)
             image_id = self.model.board[pos[0]][pos[1]]
             image = self.model.images.get(image_id)
             self.game_view.update_board(pos, image)
-        elif len(self.selected) == 1:
-            self.selected.append(pos)
-            image_id = self.model.board[pos[0]][pos[1]]
-            image = self.model.images.get(image_id)
-            self.game_view.update_board(pos, image)
-            self.handle_card_selection()
-            self.model.moves += 1
-            self.update_move_count(self.model.moves)
-            self.selected.clear()
+            if len(self.selected) == 2:
+                self.handle_card_selection()
+                self.model.moves += 1
+                self.update_move_count(self.model.moves)
+                self.check_game_complete()
 
     def handle_card_selection(self):
         """
@@ -168,10 +165,8 @@ class GameController:
         """
         if not self.model.check_match(self.selected[0], self.selected[1]):
             self.game_view.window.after(1000, self.game_view.reset_cards,
-                                 self.selected[0], self.selected[1])
-        else:
-            pass
-
+                                        self.selected[0], self.selected[1])
+        self.selected.clear()
 
     def update_move_count(self, moves):
         """
@@ -188,7 +183,10 @@ class GameController:
 
         :return: True si el juego está completo, False en caso contrario.
         """
-        pass
+        if self.model.is_game_complete():
+            messagebox.showinfo("¡Albricias!",
+                                f"Has encontrado las {self.model.hits} parejas en {self.model.moves} movimientos!")
+            self.return_to_main_menu()
 
     def return_to_main_menu(self):
         self.destroy()  # Cierra la ventana Toplevel
@@ -216,15 +214,27 @@ class GameController:
         if self.game_view is not None:
             self.game_view.window.destroy()
 
-        # # 2. Liberar recursos del modelo
-        # if self.model is not None:
-        #     self.model.reset()
-
-        # 3. Restablecer variables del juego
+        # 2. Restablecer variables del juego
         self.selected = []  # Limpiar selecciones de cartas
         self.timer_started = False  # Detener el temporizador
 
-        # 4. Mostrar la ventana principal
-        self.root.deiconify()  # Hacer visible la ventana principal
-
-
+    def load_scores(self):
+        """
+        Carga las puntuaciones previas.
+        """
+        try:
+            with open("res/ranking.txt", 'r', encoding='utf-8') as file:
+                scores = json.load(file)
+        except FileNotFoundError:
+            # Crear una estructura vacía si el archivo no existe
+            scores = {'fácil': [], 'medio': [], 'difícil': []}
+        output = "Ranking de Puntajes:\n\n"
+        for difficulty, points in scores.items():
+            output += f"Dificultad: {difficulty.capitalize()}\n"
+            if points:
+                for i, score in enumerate(points, start=1):
+                    output += f"  {i}. {score['nombre']} - Movimientos: {score['movimientos']} - Fecha: {score['fecha']}\n"
+            else:
+                output += "  No hay puntajes registrados.\n"
+            output += "\n"  # Salto de línea entre dificultades
+        return output
