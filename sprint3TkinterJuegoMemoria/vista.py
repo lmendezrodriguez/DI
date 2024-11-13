@@ -1,4 +1,3 @@
-import tkinter
 import tkinter as tk
 from tkinter import simpledialog, messagebox
 
@@ -17,7 +16,7 @@ class MainMenu:
         self.root = root
         self.root.title(
             "Memoriza las cartas!")  # Título de la ventana principal
-        self.root.geometry("400x600")  # Tamaño de la ventana
+        self.root.geometry("400x400")  # Tamaño de la ventana
 
         # Crear el botón "Jugar" y enlazarlo con el callback para iniciar el juego
         play_button = tk.Button(root, text="Jugar",
@@ -48,13 +47,13 @@ class MainMenu:
             if player_name is None:
                 # Si el jugador cancela, se retorna None
                 return None
-            elif len(player_name) < 1:
+            elif len(player_name.strip()) < 1:
                 # Si el nombre está vacío, se muestra un error
                 messagebox.showerror("Error",
                                      "El nombre no puede estar vacío. Por favor, ingresa un nombre.")
             else:
                 # Si el nombre es válido, se retorna el nombre ingresado
-                return player_name
+                return player_name.strip()
 
 
 class GameView:
@@ -90,12 +89,12 @@ class GameView:
         """
         board_size = len(model.board)  # Tamaño del tablero
 
+        # Obtener la imagen oculta para representar el reverso de la carta
+        self.hidden_image = model.hidden
+
         # Crear una cuadrícula de etiquetas (Labels) en la ventana para representar las cartas
         for row in range(board_size):
             for col in range(board_size):
-                # Obtener la imagen oculta para representar el reverso de la carta
-                self.hidden_image = model.hidden
-
                 # Crear el label para la carta, asociando la imagen oculta inicialmente
                 label = tk.Label(self.window, image=self.hidden_image)
                 label.grid(row=row, column=col, padx=5, pady=5)
@@ -113,10 +112,11 @@ class GameView:
 
         # Añadir etiquetas para mostrar el contador de movimientos y el temporizador
         self.move_counter = tk.Label(self.window, text="Movimientos: 0")
-        self.move_counter.grid(row=board_size, column=0, columnspan=board_size // 2)
+        self.move_counter.grid(row=board_size, column=0,
+                               columnspan=board_size // 2)
         self.timer = tk.Label(self.window, text="00:00")
         self.timer.grid(row=board_size, column=board_size // 2,
-                   columnspan=board_size // 2)
+                        columnspan=board_size // 2)
 
     def update_board(self, pos, image):
         """
@@ -124,10 +124,9 @@ class GameView:
         correspondiente según el image_id proporcionado.
 
         :param pos: La posición de la carta en el tablero.
-        :param image: El identificador de la imagen a mostrar en esa posición.
+        :param image: La imagen a mostrar en esa posición.
         """
         self.labels.get(pos).config(image=image)
-
 
     def reset_cards(self, pos1, pos2):
         """
@@ -147,7 +146,7 @@ class GameView:
 
         :param moves: El número actual de movimientos realizados por el jugador.
         """
-        pass
+        self.move_counter.config(text=f"Movimientos: {moves}")
 
     def update_time(self, time):
         """
@@ -156,11 +155,3 @@ class GameView:
         :param time: El tiempo transcurrido que se mostrará en el temporizador.
         """
         self.timer.config(text=time)
-
-    def destroy(self):
-        """
-        Cierra la ventana del tablero y limpia los elementos almacenados en labels.
-        Esto es útil para restablecer la interfaz al terminar el juego o al regresar
-        al menú principal.
-        """
-        pass
