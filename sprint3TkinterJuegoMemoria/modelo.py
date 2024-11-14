@@ -8,7 +8,7 @@ import recursos
 
 
 class GameModelo:
-    def __init__(self, difficulty, player_name, cell_size=75):
+    def __init__(self, difficulty, player_name, cell_size=70):
         """
         Inicializa el modelo del juego con la dificultad, nombre del jugador y tamaño de las celdas.
 
@@ -81,7 +81,7 @@ class GameModelo:
                                                         self.cell_size)
 
                 # Carga imágenes para cada identificador de carta en el tablero
-                for image_id in range(1, ((len(self.board) ** 2) // 2) + 1):
+                for image_id in range(1, self.card_pairs + 1):
                     image_url = f"{base_url}{image_id}.png"
                     self.images[image_id] = recursos.descargar_imagen(
                         image_url, self.cell_size)
