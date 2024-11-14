@@ -8,7 +8,7 @@ import recursos
 
 
 class GameModelo:
-    def __init__(self, difficulty, player_name, cell_size=100):
+    def __init__(self, difficulty, player_name, cell_size=75):
         """
         Inicializa el modelo del juego con la dificultad, nombre del jugador y tamaño de las celdas.
 
@@ -81,7 +81,7 @@ class GameModelo:
                                                         self.cell_size)
 
                 # Carga imágenes para cada identificador de carta en el tablero
-                for image_id in range(1, len(self.board*2) + 1):
+                for image_id in range(1, ((len(self.board) ** 2) // 2) + 1):
                     image_url = f"{base_url}{image_id}.png"
                     self.images[image_id] = recursos.descargar_imagen(
                         image_url, self.cell_size)
@@ -94,14 +94,6 @@ class GameModelo:
 
         # Inicia un hilo para cargar las imágenes sin bloquear la interfaz
         threading.Thread(target=load_images_thread, daemon=True).start()
-
-    def images_are_loaded(self):
-        """
-        Verifica si las imágenes se han cargado correctamente.
-
-        :return: True si las imágenes están cargadas, False en caso contrario.
-        """
-        return self.images_loaded
 
     def start_timer(self):
         """

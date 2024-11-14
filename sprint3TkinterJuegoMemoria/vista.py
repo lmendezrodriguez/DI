@@ -73,7 +73,7 @@ class GameView:
         self.root = root
         self.window = tk.Toplevel(
             self.root)  # Crea una ventana secundaria para el juego
-        self.window.geometry("500x500")  # Tamaño de la ventana de juego
+        self.window.geometry("700x700")  # Tamaño de la ventana de juego
         self.window.title(
             "Memoriza las cartas")  # Título de la ventana de juego
         self.labels = {}  # Diccionario para almacenar las cartas en el tablero
@@ -87,7 +87,10 @@ class GameView:
 
         :param model: El modelo del juego, que contiene los datos del tablero y las imágenes.
         """
+        print(model.board)
+        print(model.images)
         board_size = len(model.board)  # Tamaño del tablero
+        print(board_size)
 
         # Obtener la imagen oculta para representar el reverso de la carta
         self.hidden_image = model.hidden

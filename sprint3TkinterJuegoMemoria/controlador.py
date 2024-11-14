@@ -148,23 +148,29 @@ class GameController:
         """
         self.model.start_timer()
         self.update_time()
-        if len(self.selected) <= 1:
+        print(pos)
+        if len(self.selected) < 1:
             self.selected.append(pos)
             image_id = self.model.board[pos[0]][pos[1]]
             image = self.model.images.get(image_id)
             self.game_view.update_board(pos, image)
-            if len(self.selected) == 2:
-                self.handle_card_selection()
-                self.model.moves += 1
-                self.update_move_count(self.model.moves)
-                self.check_game_complete()
+        elif len(self.selected) < 2 and self.selected[0] != pos:
+            #self.game_view.window.attributes('-disabled', True)
+            self.selected.append(pos)
+            image_id = self.model.board[pos[0]][pos[1]]
+            image = self.model.images.get(image_id)
+            self.game_view.update_board(pos, image)
+            self.handle_card_selection()
+            self.model.moves += 1
+            self.update_move_count(self.model.moves)
+            self.check_game_complete()
 
     def handle_card_selection(self):
         """
         Maneja la selección de una carta por parte del jugador.
         """
         if not self.model.check_match(self.selected[0], self.selected[1]):
-            self.game_view.window.after(1000, self.game_view.reset_cards,
+            self.game_view.window.after(500, self.game_view.reset_cards,
                                         self.selected[0], self.selected[1])
         self.selected.clear()
 
