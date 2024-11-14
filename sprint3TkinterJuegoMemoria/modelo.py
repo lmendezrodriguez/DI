@@ -16,9 +16,9 @@ class GameModelo:
         :param player_name: Nombre del jugador.
         :param cell_size: Tamaño de las celdas del juego (por defecto 100).
         """
-        self.difficulty = difficulty
-        self.player_name = player_name
-        self.cell_size = cell_size
+        self.difficulty = difficulty # Dificultad del juego
+        self.player_name = player_name # Nombre del jugador
+        self.cell_size = cell_size # Tamaño de las cartas
         self.start_time = None  # Guarda el tiempo de inicio del juego
         self.moves = 0  # Contador de movimientos
         self.hits = 0  # Contador de aciertos
