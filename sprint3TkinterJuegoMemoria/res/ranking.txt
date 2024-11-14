@@ -1,0 +1,16 @@
+{
+    "f\u00e1cil": [
+        {
+            "nombre": "Guybrush",
+            "movimientos": 20,
+            "fecha": "2024-11-13 09:58:42"
+        },
+        {
+            "nombre": "Guybrush",
+            "movimientos": 22,
+            "fecha": "2024-11-13 18:42:42"
+        }
+    ],
+    "medio": [],
+    "dif\u00edcil": []
+}
