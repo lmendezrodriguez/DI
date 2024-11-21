@@ -1,24 +1,33 @@
 package com.example.mycatalog;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.ImageView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+
+import jp.wasabeef.glide.transformations.CropCircleWithBorderTransformation;
+
+// Clase DetailActivity.java
 public class DetailActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Llamada al método onCreate de la superclase
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_detail);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        ImageView imageView = findViewById(R.id.image_1);
+
+        // Cargar la imagen con borde redondeado y borde externo
+        Glide.with(this)
+                .load(R.drawable.tigrito) // Cambia si usas una URL u otra fuente
+                .transform(
+                        new RoundedCorners(50), // Esquinas redondeadas (ajusta el radio según necesites)
+                        new CropCircleWithBorderTransformation(5, Color.GREEN) // Borde rojo con ancho de 10px
+                )
+                .into(imageView);
     }
 }
