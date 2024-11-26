@@ -11,23 +11,26 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import jp.wasabeef.glide.transformations.CropCircleWithBorderTransformation;
 
-// Clase DetailActivity.java
+/**
+ * Actividad que muestra los detalles de un elemento, incluyendo una imagen con efectos de estilo.
+ */
 public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Llamada al método onCreate de la superclase
+        // Llamada al método onCreate de la superclase para inicializar la actividad
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        // Referencia al ImageView definido en el layout
         ImageView imageView = findViewById(R.id.image_1);
 
-        // Cargar la imagen con borde redondeado y borde externo
+        // Cargar una imagen con Glide, aplicando esquinas redondeadas y un borde circular
         Glide.with(this)
-                .load(R.drawable.tigrito) // Cambia si usas una URL u otra fuente
+                .load(R.drawable.tigrito) // Imagen de recurso; cámbialo por URL si es necesario
                 .transform(
-                        new RoundedCorners(50), // Esquinas redondeadas (ajusta el radio según necesites)
-                        new CropCircleWithBorderTransformation(5, Color.GREEN) // Borde rojo con ancho de 10px
+                        new RoundedCorners(50), // Transformación de esquinas redondeadas
+                        new CropCircleWithBorderTransformation(5, Color.GREEN) // Transformación circular con borde verde
                 )
-                .into(imageView);
+                .into(imageView); // Establece la imagen procesada en el ImageView
     }
 }

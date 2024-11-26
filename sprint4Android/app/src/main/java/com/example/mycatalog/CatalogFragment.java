@@ -13,27 +13,38 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 /**
- * Fragmento del catálogo.
+ * Fragmento que representa el catálogo.
+ * Contiene un botón que permite navegar a la actividad de detalle (DetailActivity).
  */
 public class CatalogFragment extends Fragment {
 
+    /**
+     * Método para inflar y configurar el layout del fragmento.
+     *
+     * @param inflater  Objeto utilizado para inflar vistas en el fragmento.
+     * @param container Contenedor padre al que se añadirá la vista del fragmento (puede ser nulo).
+     * @param savedInstanceState Estado guardado previamente (si existe).
+     * @return La vista inflada del fragmento.
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflar el layout para este fragmento
+        // Inflar el layout para este fragmento desde XML
         View view = inflater.inflate(R.layout.fragment_catalog, container, false);
 
-        // Configurar el botón
+        // Referencia al botón definido en el layout
         Button button = view.findViewById(R.id.button_detail_fragment);
+        // Configurar la acción del botón
         button.setOnClickListener(v -> {
-            // Iniciar la DetailActivity
+            // Crear un Intent para abrir la actividad de detalle
             Intent intent = new Intent(requireContext(), DetailActivity.class);
             startActivity(intent);
 
-            // Finalizar la MainActivity
+            // Finalizar la actividad principal (MainActivity)
             requireActivity().finish();
         });
 
+        // Retornar la vista configurada del fragmento
         return view;
     }
 }

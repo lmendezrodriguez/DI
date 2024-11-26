@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- XML para el menú de navegación -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Menú de navegación -->
+    <!-- Ítem para el botón de navegación de Catálogo -->
     <item
         android:id="@+id/catalog"
         android:icon="@drawable/icon_catalog"
         android:title="Catálogo" />
+    <!-- Ítem para el botón de navegación de Acerca de -->
     <item
         android:id="@+id/about"
         android:icon="@drawable/icon_about"

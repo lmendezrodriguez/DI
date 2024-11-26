@@ -15,8 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- ImageView para la imagen -->
-
+    <!-- ImageView para la imagen del catálogo -->
     <ImageView
         android:id="@+id/image_1"
         android:layout_width="200dp"
