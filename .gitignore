@@ -5,6 +5,8 @@
 __pycache__/
 .venv
 **/.venv/
+**/.gradle
+.gradle
 
 # Ignorar archivos de configuración de sistema
 .DS_Store
