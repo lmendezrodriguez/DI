@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "281940033445",
+    "project_id": "pajareandoapp-4fea7",
+    "storage_bucket": "pajareandoapp-4fea7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:281940033445:android:9ba86813f22bc0ddf6724c",
+        "android_client_info": {
+          "package_name": "com.lmr.pajareandoapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAA2BbmKXtonsXCvgrlCwQVZKa-4jmuD0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
