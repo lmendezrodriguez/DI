@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity">
+
+    <!-- Campo para el nombre completo del usuario -->
+    <EditText
+        android:id="@+id/edit_text_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:hint="@string/erithacus_rubecula"
+        android:autofillHints="name"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:textColorHint="#546E7A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.65" />
+
+    <!-- Campo para el correo electrónico del usuario -->
+    <EditText
+        android:id="@+id/edit_text_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="emailAddress"
+        android:hint="@string/erithacus_pajareando_org"
+        android:importantForAutofill="yes"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        android:textColorHint="#546E7A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_name"
+        app:layout_constraintWidth_percent="0.65" />
+
+    <!-- Campo para la contraseña -->
+    <EditText
+        android:id="@+id/edit_text_pass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/contrase_a"
+        android:autofillHints="password"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:textColorHint="#546E7A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_email"
+        app:layout_constraintWidth_percent="0.65" />
+
+    <!-- Campo para confirmar la contraseña -->
+    <EditText
+        android:id="@+id/edit_text_confirm_pass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/confirmar_contrase_a"
+        android:autofillHints="password"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:textColorHint="#546E7A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_pass"
+        app:layout_constraintWidth_percent="0.65" />
+
+    <!-- Campo para el número de teléfono -->
+    <EditText
+        android:id="@+id/edit_text_telephone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/_34689689689"
+        android:autofillHints="phone"
+        android:inputType="phone"
+        android:minHeight="48dp"
+        android:textColorHint="#546E7A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_confirm_pass"
+        app:layout_constraintWidth_percent="0.65" />
+
+    <!-- Campo para la dirección postal -->
+    <EditText
+        android:id="@+id/edit_text_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/r_a_merlo_6_1500_lisboa"
+        android:autofillHints="postalAddress"
+        android:inputType="textPostalAddress"
+        android:minHeight="48dp"
+        android:textColorHint="#546E7A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_telephone"
+        app:layout_constraintWidth_percent="0.65" />
+
+    <!-- Botón de registro -->
+    <Button
+        android:id="@+id/button_register"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/registrarse"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_address"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+        app:layout_constraintWidth_percent="0.65" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
