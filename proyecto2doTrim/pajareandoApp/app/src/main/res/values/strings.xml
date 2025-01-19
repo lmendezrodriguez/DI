@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">pajareandoApp</string>
+    <string name="r_a_merlo_6_1500_lisboa">Rúa Merlo, 6 1500 - Lisboa</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="confirmar_contrase_a">Confirmar contraseña</string>
+    <string name="erithacus_pajareando_org">erithacus@pajareando.org</string>
+    <string name="erithacus_rubecula">Erithacus Rubecula</string>
+    <string name="contrase_a">Contraseña</string>
+    <string name="_34689689689">+34689689689</string>
 </resources>
