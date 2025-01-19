@@ -51,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
                         //finish();
                         startActivity(new Intent(RegisterActivity.this, DashboardActivity.class));
                     } else {
-                        Toast.makeText(RegisterActivity.this, "Error en el registro: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this, SpanishExceptionHandler.getSpanishErrorMessage(task.getException()), Toast.LENGTH_LONG).show();
                     }
                 });
     }
