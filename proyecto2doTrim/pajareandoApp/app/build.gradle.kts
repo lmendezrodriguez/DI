@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    //id("com.android.application")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -32,12 +34,20 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
+    implementation(libs.constraintlayout.core)
+    implementation(libs.constraintlayout.solver)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.picasso)
 }
