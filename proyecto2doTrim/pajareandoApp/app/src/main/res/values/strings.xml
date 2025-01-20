@@ -10,4 +10,7 @@
     <string name="iniciar_sesi_n">Iniciar Sesión</string>
     <string name="cerrar_sesi_n">Cerrar Sesión</string>
     <string name="pajareando">Pajareando</string>
+    <string name="t_tulo">Título</string>
+    <string name="descripci_n">Descripción</string>
+    <string name="imagen_de_p_jaro">Imagen de pájaro</string>
 </resources>
