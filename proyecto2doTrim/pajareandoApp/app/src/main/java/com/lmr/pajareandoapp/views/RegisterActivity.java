@@ -2,26 +2,22 @@ package com.lmr.pajareandoapp.views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.lmr.pajareandoapp.R;
-import com.lmr.pajareandoapp.models.User;
-import com.lmr.pajareandoapp.utils.SpanishExceptionHandler;
+import com.lmr.pajareandoapp.viewmodels.RegisterViewModel;
+
 
 /**
  * Actividad de registro de usuario en la aplicación.
  * Permite registrar un nuevo usuario en Firebase Authentication y almacenar sus datos en Firebase Realtime Database.
  */
 public class RegisterActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
+    RegisterViewModel registerViewModel;
 
     /**
      * Método que se llama cuando la actividad es creada.
@@ -33,11 +29,23 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
 
-        mAuth = FirebaseAuth.getInstance();
+        // Observa el resultado de la autenticación
+        registerViewModel.getAuthResult().observe(this, authResult -> {
+            if (authResult != null) {
+                if (authResult.isSuccess()) {
+                    Toast.makeText(RegisterActivity.this, authResult.getMessage(), Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(RegisterActivity.this, DashboardActivity.class));
+                } else {
+                    Toast.makeText(RegisterActivity.this, authResult.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         // Configura el evento de clic en el botón de registro.
         findViewById(R.id.button_register).setOnClickListener(v -> registerUser());
+
     }
 
     /**
@@ -65,52 +73,6 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(RegisterActivity.this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // Crea un nuevo usuario en Firebase Authentication.
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(RegisterActivity.this, "Usuario registrado correctamente.", Toast.LENGTH_SHORT).show();
-                        // Agrega los datos del usuario a Firebase Realtime Database.
-                        addUserDataToFireBase(mAuth.getCurrentUser(), name, email, telephone, address);
-                        // Inicia la actividad Dashboard después de un registro exitoso.
-                        startActivity(new Intent(RegisterActivity.this, DashboardActivity.class));
-                    } else {
-                        // Muestra el mensaje de error si el registro falla.
-                        Toast.makeText(RegisterActivity.this, SpanishExceptionHandler.getSpanishErrorMessage(task.getException()), Toast.LENGTH_LONG).show();
-                    }
-                });
-    }
-
-    /**
-     * Agrega los datos del usuario registrado a Firebase Realtime Database.
-     *
-     * @param authUser El usuario autenticado en Firebase.
-     * @param name Nombre del usuario.
-     * @param email Correo electrónico del usuario.
-     * @param telephone Número de teléfono del usuario.
-     * @param address Dirección del usuario.
-     */
-    private void addUserDataToFireBase(FirebaseUser authUser, String name, String email, String telephone, String address) {
-        // Referencia a la base de datos de Firebase.
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users");
-
-        if (authUser != null) {
-            String uid = authUser.getUid();
-            // Crea un nuevo objeto User con los datos del usuario.
-            User newUser = new User(uid, name, email, telephone, address);
-            System.out.println(newUser.toString());
-
-            // Almacena los datos del usuario en la base de datos de Firebase.
-            databaseRef.child(uid).setValue(newUser)
-                    .addOnCompleteListener(dbTask -> {
-                        if (dbTask.isSuccessful()) {
-                            System.out.println(newUser.toString());
-                            Log.d("Firebase", "Usuario añadido a Realtime Database con UID: " + uid);
-                        } else {
-                            Log.e("Firebase", "Error al añadir usuario a la base de datos", dbTask.getException());
-                        }
-                    });
-        }
+        registerViewModel.registerUser(email, password, name, telephone, address);
     }
 }

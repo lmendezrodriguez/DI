@@ -3,7 +3,7 @@ package com.lmr.pajareandoapp.utils;
 /**
  * Representa el resultado de una operación de autenticación en la aplicación.
  */
-public class AuthentificationResult {
+public class AuthenticationResult {
     private final boolean success;
     private final String message;
 
@@ -12,7 +12,7 @@ public class AuthentificationResult {
      * @param success Indica si la operación de autenticación fue exitosa.
      * @param message Mensaje de error en caso de que la operación falle.
      **/
-    public AuthentificationResult(boolean success, String message) {
+    public AuthenticationResult(boolean success, String message) {
         this.success = success;
         this.message = message;
     }
