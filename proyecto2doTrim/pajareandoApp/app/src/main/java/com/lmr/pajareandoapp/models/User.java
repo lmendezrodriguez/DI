@@ -1,4 +1,4 @@
-package com.lmr.pajareandoapp;
+package com.lmr.pajareandoapp.models;
 
 /**
  * Representa un usuario en la aplicación Pajareando.

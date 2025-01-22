@@ -1,4 +1,4 @@
-package com.lmr.pajareandoapp;
+package com.lmr.pajareandoapp.views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.lmr.pajareandoapp.R;
+import com.lmr.pajareandoapp.utils.SpanishExceptionHandler;
 
 /**
  * Actividad de inicio de sesión en la aplicación.

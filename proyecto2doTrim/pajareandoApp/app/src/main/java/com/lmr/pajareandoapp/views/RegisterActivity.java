@@ -1,4 +1,4 @@
-package com.lmr.pajareandoapp;
+package com.lmr.pajareandoapp.views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.lmr.pajareandoapp.R;
+import com.lmr.pajareandoapp.models.User;
+import com.lmr.pajareandoapp.utils.SpanishExceptionHandler;
 
 /**
  * Actividad de registro de usuario en la aplicación.

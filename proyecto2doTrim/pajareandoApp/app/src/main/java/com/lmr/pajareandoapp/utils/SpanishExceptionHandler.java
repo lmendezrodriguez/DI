@@ -1,4 +1,4 @@
-package com.lmr.pajareandoapp;
+package com.lmr.pajareandoapp.utils;
 
 import android.accounts.NetworkErrorException;
 
