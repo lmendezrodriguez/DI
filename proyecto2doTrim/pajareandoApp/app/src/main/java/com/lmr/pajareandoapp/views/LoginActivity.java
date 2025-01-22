@@ -6,17 +6,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.lmr.pajareandoapp.R;
-import com.lmr.pajareandoapp.utils.SpanishExceptionHandler;
+import com.lmr.pajareandoapp.viewmodels.LoginViewModel;
+
 
 /**
  * Actividad de inicio de sesión en la aplicación.
  * Permite a los usuarios autenticarse usando su correo electrónico y contraseña en Firebase Authentication.
  */
 public class LoginActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
+    private LoginViewModel loginViewModel;
 
     /**
      * Método que se llama cuando la actividad es creada.
@@ -28,9 +29,19 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-        // Inicializa FirebaseAuth.
-        mAuth = FirebaseAuth.getInstance();
+        //
+        loginViewModel.getAuthResult().observe(this, authResult -> {
+            if (authResult != null) {
+                if (authResult.isSuccess()) {
+                    Toast.makeText(LoginActivity.this, authResult.getMessage(), Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+                } else {
+                    Toast.makeText(LoginActivity.this, authResult.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         // Configura el evento de clic para el botón de inicio de sesión.
         findViewById(R.id.button_login).setOnClickListener(v -> loginUser());
@@ -55,17 +66,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Por favor, completa todos los campos.", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // Intenta autenticar al usuario con el correo electrónico y la contraseña proporcionados.
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
-            if (task.isSuccessful()) {
-                // Si la autenticación es exitosa, muestra un mensaje y redirige al Dashboard.
-                Toast.makeText(LoginActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
-            } else {
-                // Si la autenticación falla, muestra un mensaje de error.
-                Toast.makeText(LoginActivity.this, SpanishExceptionHandler.getSpanishErrorMessage(task.getException()), Toast.LENGTH_LONG).show();
-            }
-        });
+        loginViewModel.loginUser(email, password);
     }
 }
