@@ -61,6 +61,7 @@ public class BirdRepository {
                     Bird bird = snapshot.getValue(Bird.class);
                     birdLiveData.postValue(bird);
                 } else {
+
                     birdLiveData.postValue(null); // Si no se encuentra el ave
                 }
             }
