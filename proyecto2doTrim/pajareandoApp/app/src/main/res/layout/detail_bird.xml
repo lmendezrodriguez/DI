@@ -1,5 +1,9 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="bird"
             type="com.lmr.pajareandoapp.models.Bird" />
@@ -7,29 +11,80 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/birdScientificName"
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/scientific_name" />
+            android:layout_margin="8dp"
+            app:cardBackgroundColor="@color/cardview_shadow_end_color"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/birdCommonName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/common_name" />
-        <TextView
-            android:id="@+id/birdDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/description" />
-        <ImageView
-            android:id="@+id/birdImage"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:contentDescription="@string/imagen_del_ave" />
+                <!-- Usamos ConstraintLayout dentro del CardView -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <!-- Imagen del ave, con un tamaño relativo -->
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/birdImage"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/imagen_del_ave"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toTopOf="@id/birdCommonName"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.95"
+                        app:shapeAppearanceOverlay="@style/RoundedImageView" />
+
+                    <!-- Nombre común del ave -->
+                    <TextView
+                        android:id="@+id/birdCommonName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Common Name"
+                        android:textColor="@color/design_default_color_on_secondary"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/birdImage" />
+
+                    <!-- Nombre científico del ave -->
+                    <TextView
+                        android:id="@+id/birdScientificName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Scientific Name"
+                        android:textColor="@color/design_default_color_primary"
+                        android:textSize="20sp"
+                        android:textStyle="italic"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/birdCommonName" />
+
+                    <!-- Descripción del ave -->
+                    <TextView
+                        android:id="@+id/birdDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:justificationMode="inter_word"
+                        android:text="Description"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/birdScientificName" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </layout>
