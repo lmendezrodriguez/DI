@@ -24,6 +24,7 @@ public class LoginViewModel extends ViewModel {
 
     /**
      * Obtiene el resultado de la autenticación.
+     *
      * @return LiveData que notifica el resultado de la autenticación.
      */
     public LiveData<AuthenticationResult> getAuthResult() {
@@ -32,8 +33,9 @@ public class LoginViewModel extends ViewModel {
 
     /**
      * Inicia sesión con las credenciales proporcionadas.
-     * @param email
-     * @param password
+     *
+     * @param email    El correo electrónico del usuario.
+     * @param password La contraseña del usuario.
      */
     public void loginUser(String email, String password) {
         userRepository.loginUser(email, password, authResult);

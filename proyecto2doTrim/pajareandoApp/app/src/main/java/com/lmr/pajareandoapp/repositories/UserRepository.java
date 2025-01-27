@@ -18,6 +18,7 @@ import com.lmr.pajareandoapp.utils.AuthenticationResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Repositorio de usuarios en la aplicación Pajareando.
@@ -29,8 +30,6 @@ public class UserRepository {
 
     /**
      * Crea una instancia del repositorio de usuarios.
-     * @param userRef Referencia a la base de datos de usuarios en Firebase Realtime Database.
-     * @param firebaseAuth Instancia de FirebaseAuth para autenticación en Firebase.
      */
     public UserRepository() {
         userRef = FirebaseDatabase.getInstance().getReference("users");
@@ -40,6 +39,7 @@ public class UserRepository {
     /**
      * Obtiene la lista de usuarios desde la base de datos.
      * Se utiliza un MutableLiveData para notificar a los observadores cuando los datos cambian.
+     *
      * @param userLiveData
      */
     public void getUsers(MutableLiveData<List<User>> userLiveData) {
@@ -64,12 +64,13 @@ public class UserRepository {
 
     /**
      * Registra un nuevo usuario en la aplicación.
-     * @param email
-     * @param password
-     * @param name
-     * @param telephone
-     * @param address
-     * @param result El resultado de la operación de registro que notifica a los observadores.
+     *
+     * @param email     El correo electrónico del usuario.
+     * @param password  Contraseña del usuario.
+     * @param name      Nombre del usuario.
+     * @param telephone Número de teléfono del usuario.
+     * @param address   Dirección del usuario.
+     * @param result    El resultado de la operación de registro que notifica a los observadores.
      */
     public void registerUser(String email, String password, String name, String telephone, String address, MutableLiveData<AuthenticationResult> result) {
 
@@ -80,19 +81,20 @@ public class UserRepository {
                         if (firebaseUser != null) {
                             String userUid = firebaseUser.getUid();
                             // Crear el objeto User
-                            User user = new User(userUid,name, email,telephone, address, new ArrayList<>());;
+                            User user = new User(userUid, name, email, telephone, address, new ArrayList<>());
                             // Guardar los datos del usuario en la base de datos
                             saveUserToDatabase(user, result);
                         }
                     } else {
-                        result.postValue(new AuthenticationResult(false,"Error: " + getSpanishErrorMessage(task.getException())));
+                        result.postValue(new AuthenticationResult(false, "Error: " + getSpanishErrorMessage(task.getException())));
                     }
                 });
     }
 
     /**
      * Guarda los datos del usuario en la base de datos.
-     * @param user
+     *
+     * @param user   El objeto User que contiene los datos del usuario.
      * @param result El resultado de la operación de registro que notifica a los observadores.
      */
     private void saveUserToDatabase(User user, MutableLiveData<AuthenticationResult> result) {
@@ -108,9 +110,10 @@ public class UserRepository {
 
     /**
      * Inicia sesión de un usuario.
-     * @param email
-     * @param password
-     * @param result El resultado de la operación de inicio de sesión que notifica a los observadores.
+     *
+     * @param email    El correo electrónico del usuario.
+     * @param password Contraseña del usuario.
+     * @param result   El resultado de la operación de inicio de sesión que notifica a los observadores.
      */
     public void loginUser(String email, String password, MutableLiveData<AuthenticationResult> result) {
         firebaseAuth.signInWithEmailAndPassword(email, password)

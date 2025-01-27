@@ -2,14 +2,27 @@ package com.lmr.pajareandoapp.models;
 
 import com.google.firebase.database.PropertyName;
 
+/**
+ * Clase que representa un ave en la aplicación.
+ */
 public class Bird {
     private String commonName;
     private String scientificName;
     private String description;
     private String urlPhoto;
 
+    /**
+     * Constructor vacío necesario para Firebase.
+     */
     public Bird() {}
 
+    /**
+     * Constructor para crear una nueva instancia de Bird.
+     * @param commonName Nombre común de la ave.
+     * @param scientificName Nombre científico de la ave.
+     * @param description Descripción de la ave.
+     * @param urlPhoto URL de la imagen de la ave.
+     */
     public Bird(String commonName, String scientificName, String description, String urlPhoto) {
         this.commonName = commonName;
         this.scientificName = scientificName;
@@ -17,10 +30,12 @@ public class Bird {
         this.urlPhoto = urlPhoto;
     }
 
+
     @PropertyName("common_name") // Mapea "common_name" en Firebase a "commonName" en la clase
     public String getCommonName() {
         return commonName;
     }
+
 
     @PropertyName("common_name") // Mapea "common_name" en Firebase a "commonName" en la clase
     public void setCommonName(String commonName) {

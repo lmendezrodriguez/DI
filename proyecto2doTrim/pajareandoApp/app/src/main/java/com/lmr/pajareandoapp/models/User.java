@@ -13,10 +13,10 @@ public class User {
     private String email;
     private String telephone;
     private String address;
-    private List<String> observationIds;
+    private List<Integer> observations;
 
 
-    public User() {};
+    public User() {}
 
     /**
      * Crea una nueva instancia de usuario con los detalles especificados.
@@ -28,13 +28,13 @@ public class User {
      * @param address   la dirección del usuario
      * @param observationIds la lista de observaciones del usuario
      */
-    public User(String uid, String name, String email, String telephone, String address, List<String> observationIds) {
+    public User(String uid, String name, String email, String telephone, String address, List<Integer> observationIds) {
         this.uid = uid;
         this.name = name;
         this.email = email;
         this.telephone = telephone;
         this.address = address;
-        this.observationIds = new ArrayList<>();
+        this.observations = new ArrayList<>();
     }
 
     public String getUid() {
@@ -57,7 +57,7 @@ public class User {
         return address;
     }
 
-    public List<String> getObservationIds() {
-        return observationIds;
+    public List<Integer> getObservations() {
+        return observations;
     }
 }

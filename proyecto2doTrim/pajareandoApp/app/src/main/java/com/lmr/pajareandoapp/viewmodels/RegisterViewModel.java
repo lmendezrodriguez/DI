@@ -23,6 +23,7 @@ public class RegisterViewModel extends ViewModel {
 
     /**
      * Obtiene el resultado de la autenticación.
+     *
      * @return LiveData que notifica el resultado de la autenticación.
      */
     public LiveData<AuthenticationResult> getAuthResult() {
@@ -32,11 +33,12 @@ public class RegisterViewModel extends ViewModel {
     /**
      * Registra un nuevo usuario en la aplicación. Incluye los detalles del usuario en la base de datos.
      * y notifica el resultado de la operación.
-     * @param email
-     * @param password
-     * @param name
-     * @param telephone
-     * @param address
+     *
+     * @param email     El correo electrónico del usuario.
+     * @param password  Contraseña del usuario.
+     * @param name      Nombre del usuario.
+     * @param telephone Número de teléfono del usuario.
+     * @param address   Dirección del usuario.
      */
     public void registerUser(String email, String password, String name, String telephone, String address) {
         userRepository.registerUser(email, password, name, telephone, address, authResult);

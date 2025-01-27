@@ -27,7 +27,8 @@ public class BirdRepository {
     /**
      * Obtiene la lista de aves desde la base de datos.
      * Se utiliza un MutableLiveData para notificar a los observadores cuando los datos cambian.
-     * @param birdLiveData
+     *
+     * @param birdLiveData MutableLiveData para notificar al observador con la lista de aves.
      */
     public void getBirds(MutableLiveData<List<Bird>> birdLiveData) {
         birdReference.addValueEventListener(new ValueEventListener() {
@@ -48,9 +49,11 @@ public class BirdRepository {
             }
         });
     }
+
     /**
      * Obtiene un ave específica por su birdId desde la base de datos.
-     * @param birdId ID del ave que se desea recuperar.
+     *
+     * @param birdId       ID del ave que se desea recuperar.
      * @param birdLiveData MutableLiveData para notificar al observador con el ave recuperada.
      */
     public void getBirdById(String birdId, MutableLiveData<Bird> birdLiveData) {

@@ -11,13 +11,19 @@ import com.lmr.pajareandoapp.models.Bird;
 
 import java.util.List;
 
+/**
+ * Adaptador para la lista de aves en el RecyclerView.
+ */
 public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder> {
     private List<Bird> birds;
     private static OnItemClickListener listener = null;
 
-    public BirdAdapter(List<Bird> birds) {
+    /**
+     * Constructor que recibe la lista de aves y el listener para el clic en un elemento.
+     */
+    public BirdAdapter(List<Bird> birds, OnItemClickListener listener) {
         this.birds = birds;
-        this.listener = listener;
+        BirdAdapter.listener = listener;
     }
 
     public void setBirds(List<Bird> birds) {
@@ -25,6 +31,11 @@ public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder
         notifyDataSetChanged();
     }
 
+    /**
+     * Método que se llama cuando se necesita crear un nuevo ViewHolder.
+     * @param parent ViewGroup en el que se creará el ViewHolder.
+     * @param viewType
+     */
     @NonNull
     @Override
     public BirdViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -36,33 +47,50 @@ public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder
         return new BirdViewHolder(binding);
     }
 
+    /*
+     * Método que se llama para enlazar los datos de una ave con un ViewHolder.
+     */
     @Override
     public void onBindViewHolder(@NonNull BirdViewHolder holder, int position) {
         Bird bird = birds.get(position);
         holder.bind(bird);
     }
 
+    /*
+     * Método que devuelve el número total de elementos en la lista.
+     */
     @Override
     public int getItemCount() {
         return birds != null ? birds.size() : 0;
     }
 
+    /*
+     * Interfaz para el clic en un elemento de la lista.
+     */
     public interface OnItemClickListener {
         void onItemClick(Bird bird);
     }
 
+    /*
+     * ViewHolder para cada elemento de la lista.
+     */
     static class BirdViewHolder extends RecyclerView.ViewHolder {
         private final ItemBirdBinding binding;
 
+        /*
+         * Constructor que recibe el binding del elemento de la lista.
+         */
         public BirdViewHolder(@NonNull ItemBirdBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
+        /*
+         * Método para enlazar los datos de una ave con el ViewHolder.
+         */
         public void bind(Bird bird) {
             binding.setBird(bird);
             binding.executePendingBindings();
-            // Configura el listener de clic en el item
             binding.getRoot().setOnClickListener(v ->
                     listener.onItemClick(bird));
         }

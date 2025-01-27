@@ -18,6 +18,7 @@ public class BirdDetailActivity extends AppCompatActivity {
 
     /**
      * Es llamado cuando la actividad se crea
+     *
      * @param savedInstanceState representa el estado de la actividad antes de que se destruya     *
      */
     @Override
