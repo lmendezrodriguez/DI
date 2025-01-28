@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="bird"
             type="com.lmr.pajareandoapp.models.Bird" />
@@ -42,6 +41,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintWidth_percent="0.95"
+                        app:urlPhoto="@{bird.urlPhoto}"
                         app:shapeAppearanceOverlay="@style/RoundedImageView" />
 
                     <!-- Nombre común del ave -->
@@ -49,7 +49,7 @@
                         android:id="@+id/birdCommonName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Common Name"
+                        android:text="@{bird.commonName}"
                         android:textColor="@color/design_default_color_on_secondary"
                         android:textSize="30sp"
                         android:textStyle="bold"
@@ -62,7 +62,7 @@
                         android:id="@+id/birdScientificName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Scientific Name"
+                        android:text="@{bird.scientificName}"
                         android:textColor="@color/design_default_color_primary"
                         android:textSize="20sp"
                         android:textStyle="italic"
@@ -76,7 +76,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:justificationMode="inter_word"
-                        android:text="Description"
+                        android:text="@{bird.description}"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         app:layout_constraintEnd_toEndOf="parent"
