@@ -13,4 +13,10 @@
     <string name="t_tulo">Título</string>
     <string name="descripci_n">Descripción</string>
     <string name="imagen_de_p_jaro">Imagen de pájaro</string>
+    <string name="scientific_name">Scientific Name</string>
+    <string name="common_name">Common name</string>
+    <string name="description">Description</string>
+    <string name="imagen_del_ave">Imagen del ave</string>
+    <string name="bird_image">Bird image</string>
+    <string name="logout">Logout</string>
 </resources>

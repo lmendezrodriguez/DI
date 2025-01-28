@@ -1,4 +1,7 @@
-package com.lmr.pajareandoapp;
+package com.lmr.pajareandoapp.models;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Representa un usuario en la aplicación Pajareando.
@@ -10,6 +13,10 @@ public class User {
     private String email;
     private String telephone;
     private String address;
+    private List<Integer> observations;
+
+
+    public User() {}
 
     /**
      * Crea una nueva instancia de usuario con los detalles especificados.
@@ -19,68 +26,38 @@ public class User {
      * @param email     el correo electrónico del usuario
      * @param telephone el número de teléfono del usuario
      * @param address   la dirección del usuario
+     * @param observationIds la lista de observaciones del usuario
      */
-    public User(String uid, String name, String email, String telephone, String address) {
+    public User(String uid, String name, String email, String telephone, String address, List<Integer> observationIds) {
         this.uid = uid;
         this.name = name;
         this.email = email;
         this.telephone = telephone;
         this.address = address;
-    }
-
-    /**
-     * Devuelve una representación en cadena del objeto Usuario.
-     *
-     * @return una cadena que contiene los detalles del usuario
-     */
-    @Override
-    public String toString() {
-        return "User{" +
-                "uid='" + uid + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", telephone='" + telephone + '\'' +
-                ", address='" + address + '\'' +
-                '}';
+        this.observations = new ArrayList<>();
     }
 
     public String getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getTelephone() {
         return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public List<Integer> getObservations() {
+        return observations;
     }
 }
