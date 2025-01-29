@@ -37,6 +37,8 @@ public class BirdRepository {
                 List<Bird> birds = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Bird bird = dataSnapshot.getValue(Bird.class);
+                    assert bird != null;
+                    bird.setBirdId(dataSnapshot.getKey());
                     birds.add(bird);
                 }
                 birdLiveData.setValue(birds);
