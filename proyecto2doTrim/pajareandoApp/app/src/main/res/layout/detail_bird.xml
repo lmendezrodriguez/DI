@@ -1,90 +1,133 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="bird"
             type="com.lmr.pajareandoapp.models.Bird" />
     </data>
 
-    <LinearLayout
+    <!-- Contenedor principal con comportamiento avanzado -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.card.MaterialCardView
+        <!-- AppBarLayout con Toolbar -->
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:cardBackgroundColor="@color/cardview_shadow_end_color"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp">
-            <androidx.core.widget.NestedScrollView
+            android:elevation="4dp">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                app:navigationIcon="@drawable/arrow_back"
+                app:navigationIconTint="@android:color/white"
+                app:title="Detalles del Ave"
+                app:titleTextColor="@android:color/white" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-                <!-- Usamos ConstraintLayout dentro del CardView -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
+        <!-- Contenido principal dentro de NestedScrollView -->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <!-- Contenido principal con ConstraintLayout -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <!-- Tarjeta de información del ave -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardView"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="16dp">
+                    android:layout_margin="4dp"
+                    app:cardBackgroundColor="@color/cardview_shadow_end_color"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="6dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <!-- Imagen del ave, con un tamaño relativo -->
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/birdImage"
-                        android:layout_width="0dp"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:contentDescription="@string/imagen_del_ave"
-                        android:scaleType="centerCrop"
-                        app:layout_constraintBottom_toTopOf="@id/birdCommonName"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.95"
-                        app:urlPhoto="@{bird.urlPhoto}"
-                        app:shapeAppearanceOverlay="@style/RoundedImageView" />
+                        android:padding="16dp">
 
-                    <!-- Nombre común del ave -->
-                    <TextView
-                        android:id="@+id/birdCommonName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{bird.commonName}"
-                        android:textColor="@color/design_default_color_on_secondary"
-                        android:textSize="30sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/birdImage" />
+                        <!-- Imagen del ave -->
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/birdImage"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/imagen_del_ave"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintWidth_percent="0.95"
+                            app:shapeAppearanceOverlay="@style/RoundedImageView"
+                            app:urlPhoto="@{bird.urlPhoto}" />
 
-                    <!-- Nombre científico del ave -->
-                    <TextView
-                        android:id="@+id/birdScientificName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{bird.scientificName}"
-                        android:textColor="@color/design_default_color_primary"
-                        android:textSize="20sp"
-                        android:textStyle="italic"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/birdCommonName" />
+                        <!-- Nombre común del ave -->
+                        <TextView
+                            android:id="@+id/birdCommonName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{bird.commonName}"
+                            android:textColor="@color/design_default_color_on_secondary"
+                            android:textSize="30sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/birdImage" />
 
-                    <!-- Descripción del ave -->
-                    <TextView
-                        android:id="@+id/birdDescription"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:justificationMode="inter_word"
-                        android:text="@{bird.description}"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/birdScientificName" />
+                        <!-- Nombre científico del ave -->
+                        <TextView
+                            android:id="@+id/birdScientificName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{bird.scientificName}"
+                            android:textColor="@color/design_default_color_primary"
+                            android:textSize="20sp"
+                            android:textStyle="italic"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/birdCommonName" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.core.widget.NestedScrollView>
-        </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
+                        <!-- Descripción del ave -->
+                        <TextView
+                            android:id="@+id/birdDescription"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:justificationMode="inter_word"
+                            android:text="@{bird.description}"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/birdScientificName"
+                            app:layout_constraintWidth_percent="0.9" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- FloatingActionButton con comportamiento dinámico -->
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/a_adir_a_favoritos"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/baseline_favorite_border_24" />
+                <!--                android:onClick="@{() -> .toggleFavorite()}" -->
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
