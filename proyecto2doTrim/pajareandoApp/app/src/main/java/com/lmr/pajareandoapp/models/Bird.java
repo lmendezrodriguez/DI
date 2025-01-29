@@ -6,6 +6,7 @@ import com.google.firebase.database.PropertyName;
  * Clase que representa un ave en la aplicación.
  */
 public class Bird {
+    private String birdId;
     private String commonName;
     private String scientificName;
     private String description;
@@ -18,18 +19,27 @@ public class Bird {
 
     /**
      * Constructor para crear una nueva instancia de Bird.
+     * @param birdId ID único de la ave.
      * @param commonName Nombre común de la ave.
      * @param scientificName Nombre científico de la ave.
      * @param description Descripción de la ave.
      * @param urlPhoto URL de la imagen de la ave.
      */
-    public Bird(String commonName, String scientificName, String description, String urlPhoto) {
+    public Bird(String birdId, String commonName, String scientificName, String description, String urlPhoto) {
+        this.birdId = birdId;
         this.commonName = commonName;
         this.scientificName = scientificName;
         this.description = description;
         this.urlPhoto = urlPhoto;
     }
 
+    public String getBirdId() {
+        return birdId;
+    }
+
+    public void setBirdId(String birdId) {
+        this.birdId = birdId;
+    }
 
     @PropertyName("common_name") // Mapea "common_name" en Firebase a "commonName" en la clase
     public String getCommonName() {
