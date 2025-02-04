@@ -18,8 +18,10 @@ public class BindingAdapters {
         if (url != null && !url.isEmpty()) {
             Picasso.get()
                     .load(url)
-                    .placeholder(R.drawable.pajareandologo) // Imagen de marcador de posición
-                    .error(R.drawable.pajareandologo) // Imagen en caso de error
+                    .placeholder(R.drawable.pajareandologo)
+                    .error(R.drawable.pajareandologo)
+                    .fit()
+                    .centerInside()
                     .into(view);
         }
     }
