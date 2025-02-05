@@ -1,12 +1,13 @@
 package com.lmr.pajareandoapp.views;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 
 public class FavouritesActivity extends AppCompatActivity {
     private BirdAdapter birdAdapter;
+    private boolean isDarkMode;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,23 +58,45 @@ public class FavouritesActivity extends AppCompatActivity {
             }
         });
 
-        // Configura el botón de cambio de tema (Modo Oscuro)
-        ImageButton darkModeButton = binding.darkModeButton;
-        darkModeButton.setOnClickListener(v -> {
-            // Aquí va tu lógica para cambiar el tema (si deseas implementarla)
-        });
+        // Configuración para Dark Mode
+        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
+        setDarkMode(isDarkMode);
 
-        // Configura el botón de "Volver"
-        ImageButton backButton = binding.backButton;
-        backButton.setOnClickListener(v -> onBackPressed());
+        // Configura el botón de "Volver" (MaterialButton)
+        binding.backButton.setOnClickListener(v -> onSupportNavigateUp());
 
-        // Configura el botón de cierre de sesión (Logout)
-        ImageButton logoutButton = binding.logoutButton;
-        logoutButton.setOnClickListener(v -> {
+        // Configura el botón de cierre de sesión (Logout) (MaterialButton)
+        binding.logoutButton.setOnClickListener(v -> {
             Intent intent = new Intent(FavouritesActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         });
 
+        // Configura el botón de Dark Mode (MaterialButton)
+        binding.darkModeButton.setOnClickListener(v -> {
+            isDarkMode = !isDarkMode;
+            setDarkMode(isDarkMode);
+        });
+    }
+
+    // Método para manejar la navegación hacia atrás
+    @Override
+    public boolean onSupportNavigateUp() {
+        getOnBackPressedDispatcher().onBackPressed();
+        return true;
+    }
+
+    private void setDarkMode(boolean isDarkMode) {
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        // Guarda la preferencia del modo
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isDarkMode", isDarkMode);
+        editor.apply();
     }
 }
