@@ -57,9 +57,6 @@ public class DashboardActivity extends AppCompatActivity {
         isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
         setDarkMode(isDarkMode);
 
-        // Configura los botones de la Toolbar
-        MaterialButton backButton = binding.topAppBar.findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> onSupportNavigateUp());
 
         MaterialButton favoriteButton = binding.topAppBar.findViewById(R.id.favoriteButton);
         // Aquí puedes añadir la lógica que desees para el botón de favoritos, por ejemplo:
@@ -67,7 +64,6 @@ public class DashboardActivity extends AppCompatActivity {
             // Lógica de agregar a favoritos
             Intent intent = new Intent(DashboardActivity.this, FavouritesActivity.class);
             startActivity(intent);
-            finish();
         });
 
         MaterialButton darkModeButton = binding.topAppBar.findViewById(R.id.darkModeButton);
@@ -80,8 +76,8 @@ public class DashboardActivity extends AppCompatActivity {
         logoutButton.setOnClickListener(v -> {
             Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
             startActivity(intent);
-            dashboardViewModel.logoutUser(); // Cierra la sesión del usuario.
             finish(); // Finaliza la actividad actual.
+            dashboardViewModel.logoutUser(); // Cierra la sesión del usuario.
         });
     }
 
@@ -98,10 +94,5 @@ public class DashboardActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    // Configura la navegación hacia atrás
-    @Override
-    public boolean onSupportNavigateUp() {
-        getOnBackPressedDispatcher().onBackPressed();
-        return true;
-    }
+
 }

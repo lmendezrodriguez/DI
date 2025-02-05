@@ -1,42 +1,53 @@
 package com.lmr.pajareandoapp.views;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lmr.pajareandoapp.R;
 import com.lmr.pajareandoapp.databinding.DetailBirdBinding;
 import com.lmr.pajareandoapp.viewmodels.BirdDetailViewModel;
 
-/**
- * Actividad para mostrar los detalles de un ave.
- */
 public class BirdDetailActivity extends AppCompatActivity {
     private BirdDetailViewModel viewModel;
-    private FloatingActionButton fab;
+    private SharedPreferences sharedPreferences;
+    private boolean isDarkMode;
     private String birdId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        DetailBirdBinding binding = DataBindingUtil.setContentView(this, R.layout.detail_bird);
 
-        // Infla el layout con DataBinding
-        DetailBirdBinding binding = DetailBirdBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        // Inicializa el ViewModel
+        // Configura el ViewModel
         viewModel = new ViewModelProvider(this).get(BirdDetailViewModel.class);
 
-        // Configura el Toolbar
-        setSupportActionBar(binding.toolbar); // Usa el toolbar como ActionBar
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Muestra el ícono de retroceso
-        }
+        // Configuración de preferencias para modo oscuro
+        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
+        setDarkMode(isDarkMode);
 
-        // Recupera el ID del ave desde el Intent
+        // Configuración de la barra de herramientas con botones personalizados
+        binding.backButton.setOnClickListener(v -> onSupportNavigateUp());
+        binding.logoutButton.setOnClickListener(v -> {
+            Intent intent = new Intent(BirdDetailActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
+        binding.darkModeButton.setOnClickListener(v -> {
+            isDarkMode = !isDarkMode;
+            setDarkMode(isDarkMode);
+        });
+
+        // Obtener el ID del ave desde el intent
         birdId = getIntent().getStringExtra("BIRD_ID");
         if (birdId != null) {
             viewModel.loadBirdById(birdId);
@@ -47,7 +58,7 @@ public class BirdDetailActivity extends AppCompatActivity {
             return;
         }
 
-        // Observa los cambios en los datos del ave y actualiza el binding
+        // Observa los cambios en la información del ave y actualiza la UI
         viewModel.getBirdLiveData().observe(this, bird -> {
             if (bird != null) {
                 binding.setBird(bird);
@@ -56,23 +67,33 @@ public class BirdDetailActivity extends AppCompatActivity {
             }
         });
 
-        // Configura el FAB (Favoritos)
-        fab = findViewById(R.id.fab);
+        // Manejo del botón de favoritos
         viewModel.getIsFavorite().observe(this, isFavorite -> {
-            // Actualiza el estado del FAB según el valor de isFavorite
-            fab.setImageResource(isFavorite ? R.drawable.baseline_favorite_24 : R.drawable.baseline_favorite_border_24);
+            binding.fab.setImageResource(isFavorite ? R.drawable.baseline_favorite_24 : R.drawable.baseline_favorite_border_24);
         });
 
-        fab.setOnClickListener(view -> {
+        binding.fab.setOnClickListener(view -> {
             viewModel.toggleFavorite(birdId);
             Toast.makeText(this, "Cambiando estado de favorito...", Toast.LENGTH_SHORT).show();
         });
     }
 
-    // Configura la navegación hacia atrás
     @Override
     public boolean onSupportNavigateUp() {
         getOnBackPressedDispatcher().onBackPressed();
         return true;
+    }
+
+    private void setDarkMode(boolean isDarkMode) {
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        // Guarda la preferencia del modo oscuro
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isDarkMode", isDarkMode);
+        editor.apply();
     }
 }

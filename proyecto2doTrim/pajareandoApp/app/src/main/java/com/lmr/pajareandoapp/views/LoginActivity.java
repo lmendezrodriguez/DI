@@ -1,16 +1,17 @@
 package com.lmr.pajareandoapp.views;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.lmr.pajareandoapp.R;
 import com.lmr.pajareandoapp.viewmodels.LoginViewModel;
-
 
 /**
  * Actividad de inicio de sesión en la aplicación.
@@ -18,50 +19,57 @@ import com.lmr.pajareandoapp.viewmodels.LoginViewModel;
  */
 public class LoginActivity extends AppCompatActivity {
     private LoginViewModel loginViewModel;
+    private SharedPreferences sharedPreferences;
 
-    /**
-     * Método que se llama cuando la actividad es creada.
-     * Inicializa la instancia de FirebaseAuth y configura los botones de inicio de sesión y registro.
-     *
-     * @param savedInstanceState Estado guardado de la actividad.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Aplicar el modo oscuro según las preferencias
+        applyDarkMode();
+
         setContentView(R.layout.activity_login);
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-        //
         loginViewModel.getAuthResult().observe(this, authResult -> {
             if (authResult != null) {
                 if (authResult.isSuccess()) {
                     Toast.makeText(LoginActivity.this, authResult.getMessage(), Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+                    finish();
                 } else {
                     Toast.makeText(LoginActivity.this, authResult.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
 
-        // Configura el evento de clic para el botón de inicio de sesión.
         findViewById(R.id.button_login).setOnClickListener(v -> loginUser());
-
-        // Configura el evento de clic para el botón de registro.
         findViewById(R.id.button_register).setOnClickListener(v ->
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
         );
     }
 
     /**
+     * Aplica el modo oscuro si está activado en SharedPreferences.
+     */
+    private void applyDarkMode() {
+        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        boolean isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
+
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    /**
      * Intenta autenticar al usuario con el correo electrónico y la contraseña proporcionados.
-     * Si la autenticación es exitosa, redirige al usuario al Dashboard. Si falla, muestra un mensaje de error.
      */
     private void loginUser() {
-        // Obtiene el correo electrónico y la contraseña ingresados por el usuario.
         String email = ((EditText) findViewById(R.id.edit_text_email)).getText().toString();
         String password = ((EditText) findViewById(R.id.edit_text_pass)).getText().toString();
 
-        // Verifica que los campos no estén vacíos.
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(LoginActivity.this, "Por favor, completa todos los campos.", Toast.LENGTH_SHORT).show();
             return;

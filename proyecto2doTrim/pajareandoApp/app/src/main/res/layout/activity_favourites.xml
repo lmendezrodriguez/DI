@@ -34,6 +34,7 @@
                     android:text="Aves Favoritas"
                     android:textSize="20sp"
                     android:gravity="center"
+                    android:textColor="?attr/colorOnPrimary"
                     app:layout_constraintStart_toEndOf="@id/backButton"
                     app:layout_constraintEnd_toStartOf="@id/darkModeButton"
                     app:layout_constraintTop_toTopOf="parent"

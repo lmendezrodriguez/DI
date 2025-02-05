@@ -19,23 +19,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/backButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    app:icon="@drawable/arrow_back"
-                    android:contentDescription="Volver"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
-
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Todas las Aves"
                     android:textSize="20sp"
-                    android:gravity="center"
-                    app:layout_constraintStart_toEndOf="@id/backButton"
+                    android:gravity="start"
+                    android:textColor="?attr/colorOnPrimary"
                     app:layout_constraintEnd_toStartOf="@id/favoriteButton"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />
