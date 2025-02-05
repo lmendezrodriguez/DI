@@ -1,10 +1,12 @@
 package com.lmr.pajareandoapp.views;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,21 +19,20 @@ import com.lmr.pajareandoapp.viewmodels.DashboardViewModel;
 
 import java.util.ArrayList;
 
-/**
- * Actividad principal del dashboard con RecyclerView para mostrar la lista de aves.
- */
 public class DashboardActivity extends AppCompatActivity {
     private BirdAdapter birdAdapter;
+    private boolean isDarkMode;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Configura el ViewModel y el binding
-        DashboardViewModel dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
-        ActivityDashboardBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
-        MaterialButton logoutButton = findViewById(R.id.logoutButton);
 
-        // Configurar el adaptador con el listener asoaciado al ID de la ave
+        // Configura el ViewModel y el binding
+        ActivityDashboardBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
+        DashboardViewModel dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
+
+        // Configura el adaptador con el listener asociado al ID de la ave
         birdAdapter = new BirdAdapter(new ArrayList<>(), birdId -> {
             Intent intent = new Intent(this, BirdDetailActivity.class);
             intent.putExtra("BIRD_ID", birdId);
@@ -51,12 +52,56 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        // Configura el botón de cierre de sesión
+        // Configuración para Dark Mode
+        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
+        setDarkMode(isDarkMode);
+
+        // Configura los botones de la Toolbar
+        MaterialButton backButton = binding.topAppBar.findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> onSupportNavigateUp());
+
+        MaterialButton favoriteButton = binding.topAppBar.findViewById(R.id.favoriteButton);
+        // Aquí puedes añadir la lógica que desees para el botón de favoritos, por ejemplo:
+        favoriteButton.setOnClickListener(v -> {
+            // Lógica de agregar a favoritos
+            Intent intent = new Intent(DashboardActivity.this, FavouritesActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        MaterialButton darkModeButton = binding.topAppBar.findViewById(R.id.darkModeButton);
+        darkModeButton.setOnClickListener(v -> {
+            isDarkMode = !isDarkMode;
+            setDarkMode(isDarkMode);
+        });
+
+        MaterialButton logoutButton = binding.topAppBar.findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(v -> {
             Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
             startActivity(intent);
             dashboardViewModel.logoutUser(); // Cierra la sesión del usuario.
             finish(); // Finaliza la actividad actual.
         });
+    }
+
+    private void setDarkMode(boolean isDarkMode) {
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        // Guarda la preferencia del modo
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isDarkMode", isDarkMode);
+        editor.apply();
+    }
+
+    // Configura la navegación hacia atrás
+    @Override
+    public boolean onSupportNavigateUp() {
+        getOnBackPressedDispatcher().onBackPressed();
+        return true;
     }
 }
