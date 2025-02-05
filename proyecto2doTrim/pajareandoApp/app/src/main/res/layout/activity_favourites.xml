@@ -9,9 +9,7 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            style="?attr/toolbarStyle"
-            android:background="?attr/colorPrimary"
-            app:titleTextColor="?attr/colorOnSecondary"
+            style="@style/ToolbarStyle"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">

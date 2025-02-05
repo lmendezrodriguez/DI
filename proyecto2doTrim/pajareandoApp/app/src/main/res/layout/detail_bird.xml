@@ -23,11 +23,9 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
                 app:navigationIcon="@drawable/arrow_back"
-                app:navigationIconTint="@android:color/white"
-                app:title="Detalles del Ave"
-                app:titleTextColor="@android:color/white" />
+                style="@style/ToolbarStyle"
+                app:title="Detalles del Ave" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <!-- Contenido principal dentro de NestedScrollView -->
@@ -65,8 +63,8 @@
                             android:id="@+id/birdImage"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:contentDescription="@string/imagen_del_ave"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitCenter"
+                            android:layout_marginTop="10dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -80,7 +78,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{bird.commonName}"
-                            android:textColor="@color/design_default_color_on_secondary"
                             android:textSize="30sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +90,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{bird.scientificName}"
-                            android:textColor="@color/design_default_color_primary"
                             android:textSize="20sp"
                             android:textStyle="italic"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +103,6 @@
                             android:layout_height="wrap_content"
                             android:justificationMode="inter_word"
                             android:text="@{bird.description}"
-                            android:textColor="@android:color/black"
                             android:textSize="18sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"

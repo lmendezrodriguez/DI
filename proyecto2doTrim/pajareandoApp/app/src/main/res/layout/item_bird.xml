@@ -15,11 +15,9 @@
         app:cardCornerRadius="16dp"
         app:cardElevation="1dp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:padding="8dp">
 
             <!-- Imagen del ave -->
@@ -27,36 +25,40 @@
                 android:id="@+id/birdImageItem"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_marginEnd="12dp"
                 android:scaleType="centerCrop"
                 app:urlPhoto="@{bird.urlPhoto}"
                 app:shapeAppearanceOverlay="@style/RoundedImageView"
-                android:contentDescription="@string/bird_image" />
+                android:contentDescription="@string/bird_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="12dp"/>
 
-            <!-- Contenedor de texto -->
-            <LinearLayout
+            <!-- Nombre común -->
+            <TextView
+                android:id="@+id/birdCommonNameItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:text="@{bird.commonName}"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toEndOf="@id/birdImageItem"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-                <!-- Nombre común -->
-                <TextView
-                    android:id="@+id/birdCommonNameItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{bird.commonName}"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-
-                <!-- Nombre científico -->
-                <TextView
-                    android:id="@+id/birdScientificNameItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{bird.scientificName}"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </LinearLayout>
+            <!-- Nombre científico -->
+            <TextView
+                android:id="@+id/birdScientificNameItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{bird.scientificName}"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@id/birdImageItem"
+                app:layout_constraintTop_toBottomOf="@id/birdCommonNameItem"
+                android:layout_marginStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>
