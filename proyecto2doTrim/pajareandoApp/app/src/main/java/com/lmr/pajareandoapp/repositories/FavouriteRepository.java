@@ -15,17 +15,28 @@ import com.lmr.pajareandoapp.models.Bird;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repositorio para gestionar las aves favoritas de un usuario en Firebase.
+ */
 public class FavouriteRepository {
     private final DatabaseReference userRef;
     private final DatabaseReference birdReference;
     private final FirebaseAuth firebaseAuth;
 
+    /**
+     * Constructor que inicializa las referencias a Firebase.
+     */
     public FavouriteRepository() {
         userRef = FirebaseDatabase.getInstance().getReference("users");
         birdReference = FirebaseDatabase.getInstance().getReference("birds");
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
+    /**
+     * Obtiene la lista de aves favoritas del usuario actual y actualiza LiveData.
+     *
+     * @param favoriteBirdsLiveData LiveData que se actualizará con la lista de aves favoritas.
+     */
     public void getFavoriteBirds(MutableLiveData<List<Bird>> favoriteBirdsLiveData) {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if (currentUser == null) return;
@@ -75,8 +86,9 @@ public class FavouriteRepository {
             }
         });
     }
+
     /**
-     * Cierra la sesión del usuario actual.
+     * Cierra la sesión del usuario actual en Firebase.
      */
     public void logoutUser() {
         firebaseAuth.signOut();

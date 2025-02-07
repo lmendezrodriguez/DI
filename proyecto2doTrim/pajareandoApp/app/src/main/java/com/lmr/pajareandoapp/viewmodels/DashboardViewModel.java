@@ -32,5 +32,5 @@ public class DashboardViewModel extends ViewModel {
     private void loadBirds() {
         birdRepository.getBirds(birdsLiveData);
     }
-    public void logoutUser() { this.userRepository.logoutUser(); }
+    public void logoutUser() {this.userRepository.logoutUser();}
 }

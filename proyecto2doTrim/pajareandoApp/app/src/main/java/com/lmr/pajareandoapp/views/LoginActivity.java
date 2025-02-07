@@ -19,7 +19,6 @@ import com.lmr.pajareandoapp.viewmodels.LoginViewModel;
  */
 public class LoginActivity extends AppCompatActivity {
     private LoginViewModel loginViewModel;
-    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
      * Aplica el modo oscuro si está activado en SharedPreferences.
      */
     private void applyDarkMode() {
-        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         boolean isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
 
         if (isDarkMode) {

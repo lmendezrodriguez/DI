@@ -5,12 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,30 +18,34 @@ import com.lmr.pajareandoapp.viewmodels.FavouritesViewModel;
 
 import java.util.ArrayList;
 
+/**
+ * Actividad que muestra la lista de aves favoritas del usuario.
+ * Permite visualizar detalles de cada ave y gestionar preferencias.
+ */
 public class FavouritesActivity extends AppCompatActivity {
-    private BirdAdapter birdAdapter;
-    private boolean isDarkMode;
-    private SharedPreferences sharedPreferences;
+    private BirdAdapter birdAdapter; // Adaptador para la lista de aves favoritas
+    private boolean isDarkMode; // Estado del modo oscuro
+    private SharedPreferences sharedPreferences; // Preferencias de usuario
 
+    /**
+     * Método onCreate que inicializa la actividad y configura los elementos de la UI.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Configurar la actividad Edge-to-Edge para aprovechar toda la pantalla
-        EdgeToEdge.enable(this);
         ActivityFavouritesBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_favourites);
 
-        // Configura el ViewModel y el binding
+        // Configura el ViewModel para gestionar los datos de las aves favoritas
         FavouritesViewModel favouritesViewModel = new ViewModelProvider(this).get(FavouritesViewModel.class);
 
-        // Configurar el adaptador con el listener asociado al ID de la ave
+        // Configura el adaptador con un listener para abrir detalles de cada ave favorita
         birdAdapter = new BirdAdapter(new ArrayList<>(), birdId -> {
-            // Acción al seleccionar una ave
             Intent intent = new Intent(this, BirdDetailActivity.class);
             intent.putExtra("BIRD_ID", birdId);
             startActivity(intent);
         });
 
-        // Configura el RecyclerView
+        // Configura el RecyclerView con un diseño en lista vertical
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(birdAdapter);
 
@@ -58,35 +58,40 @@ public class FavouritesActivity extends AppCompatActivity {
             }
         });
 
-        // Configuración para Dark Mode
+        // Configuración del modo oscuro basado en preferencias guardadas
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
         setDarkMode(isDarkMode);
 
-        // Configura el botón de "Volver" (MaterialButton)
+        // Configuración de botones en la barra superior
         binding.backButton.setOnClickListener(v -> onSupportNavigateUp());
-
-        // Configura el botón de cierre de sesión (Logout) (MaterialButton)
         binding.logoutButton.setOnClickListener(v -> {
+            // Cierra sesión y vuelve a la pantalla de login
             Intent intent = new Intent(FavouritesActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         });
-
-        // Configura el botón de Dark Mode (MaterialButton)
         binding.darkModeButton.setOnClickListener(v -> {
+            // Alterna el modo oscuro y guarda la preferencia
             isDarkMode = !isDarkMode;
             setDarkMode(isDarkMode);
         });
     }
 
-    // Método para manejar la navegación hacia atrás
+    /**
+     * Método para manejar la navegación hacia atrás.
+     * @return true si la navegación es exitosa.
+     */
     @Override
     public boolean onSupportNavigateUp() {
         getOnBackPressedDispatcher().onBackPressed();
         return true;
     }
 
+    /**
+     * Método para establecer el modo oscuro y guardar la preferencia.
+     * @param isDarkMode Indica si el modo oscuro debe estar activado o desactivado.
+     */
     private void setDarkMode(boolean isDarkMode) {
         if (isDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -94,7 +99,7 @@ public class FavouritesActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        // Guarda la preferencia del modo
+        // Guarda la preferencia del modo oscuro en almacenamiento compartido
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isDarkMode", isDarkMode);
         editor.apply();
