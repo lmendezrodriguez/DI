@@ -22,7 +22,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Todas las Aves"
+                    android:text="@string/todas_las_aves"
                     android:textSize="20sp"
                     android:gravity="start"
                     android:textColor="?attr/colorOnPrimary"
@@ -35,6 +35,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:icon="@drawable/baseline_favorite_24"
+                    android:contentDescription="@string/bot_n_de_a_adir_a_favoritos"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/darkModeButton"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -44,7 +45,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:icon="@drawable/baseline_light_mode_24"
-                    android:contentDescription="Dark Mode"
+                    android:contentDescription="@string/dark_mode"
                     app:layout_constraintEnd_toStartOf="@id/logoutButton"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />

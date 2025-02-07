@@ -23,7 +23,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:icon="@drawable/arrow_back"
-                    android:contentDescription="Volver"
+                    android:contentDescription="@string/volver"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />
@@ -31,7 +31,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Aves Favoritas"
+                    android:text="@string/aves_favoritas"
                     android:textSize="20sp"
                     android:gravity="center"
                     android:textColor="?attr/colorOnPrimary"
@@ -45,7 +45,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:icon="@drawable/baseline_light_mode_24"
-                    android:contentDescription="Dark Mode"
+                    android:contentDescription="@string/dark_mode"
                     app:layout_constraintEnd_toStartOf="@id/logoutButton"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />

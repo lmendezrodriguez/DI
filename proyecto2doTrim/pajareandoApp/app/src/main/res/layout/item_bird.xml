@@ -28,7 +28,7 @@
                 android:scaleType="centerCrop"
                 app:urlPhoto="@{bird.urlPhoto}"
                 app:shapeAppearanceOverlay="@style/RoundedImageView"
-                android:contentDescription="@string/bird_image"
+                android:contentDescription="@string/imagen_de_bird_commonname"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
