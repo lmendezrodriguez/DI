@@ -18,8 +18,6 @@ import com.lmr.pajareandoapp.utils.AuthenticationResult;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 /**
  * Repositorio de usuarios en la aplicación Pajareando.
  */
@@ -40,7 +38,7 @@ public class UserRepository {
      * Obtiene la lista de usuarios desde la base de datos.
      * Se utiliza un MutableLiveData para notificar a los observadores cuando los datos cambian.
      *
-     * @param userLiveData
+     * @param userLiveData MutableLiveData para notificar al observador con la lista de usuarios.
      */
     public void getUsers(MutableLiveData<List<User>> userLiveData) {
         userRef.addValueEventListener(new ValueEventListener() {
@@ -81,7 +79,7 @@ public class UserRepository {
                         if (firebaseUser != null) {
                             String userUid = firebaseUser.getUid();
                             // Crear el objeto User
-                            User user = new User(userUid, name, email, telephone, address, new ArrayList<>());
+                            User user = new User(userUid, name, email, telephone, address, new ArrayList<>(), new ArrayList<>());
                             // Guardar los datos del usuario en la base de datos
                             saveUserToDatabase(user, result);
                         }
@@ -131,5 +129,82 @@ public class UserRepository {
      */
     public void logoutUser() {
         firebaseAuth.signOut();
+    }
+
+    /**
+     * Obtiene la información del usuario actual.
+     *
+     * @param birdId id del ave
+     * @param isFavoriteLiveData MutableLiveData para notificar al observador con el ave recuperada.
+     */
+    public void toggleFavorite(String birdId, MutableLiveData<Boolean> isFavoriteLiveData) {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null) return;
+
+        // Obtener la referencia del usuario actual
+        DatabaseReference favoritesRef = userRef.child(currentUser.getUid()).child("favorites");
+
+        // Obtener la lista de favoritos del usuario
+        favoritesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<String> favorites = new ArrayList<>();
+                if (snapshot.exists()) {
+                    for (DataSnapshot favSnapshot : snapshot.getChildren()) {
+                        favorites.add(favSnapshot.getValue(String.class));
+                    }
+                }
+                // Verificar si el ave ya está en la lista de favoritos
+                boolean isCurrentlyFavorite = favorites.contains(birdId);
+                if (isCurrentlyFavorite) {
+                    favorites.remove(birdId);
+                } else {
+                    favorites.add(birdId);
+                }
+                // Actualizar la lista de favoritos en la base de datos
+                favoritesRef.setValue(favorites).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        isFavoriteLiveData.postValue(!isCurrentlyFavorite);
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Error al obtener favoritos: " + error.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Comprueba si un ave está en la lista de favoritos del usuario actual.
+     *
+     * @param birdId id del ave
+     * @param isFavoriteLiveData MutableLiveData para notificar al observador con el ave recuperada.
+     */
+    public void checkIfFavorite(String birdId, MutableLiveData<Boolean> isFavoriteLiveData) {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null) return;
+
+        DatabaseReference favoritesRef = userRef.child(currentUser.getUid()).child("favorites");
+
+        // Añade un listener para obtener la lista de favoritos
+        favoritesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<String> favorites = new ArrayList<>();
+                if (snapshot.exists()) {
+                    for (DataSnapshot favSnapshot : snapshot.getChildren()) {
+                        favorites.add(favSnapshot.getValue(String.class));
+                    }
+                }
+                isFavoriteLiveData.postValue(favorites.contains(birdId));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Error al obtener favoritos: " + error.getMessage());
+            }
+        });
     }
 }

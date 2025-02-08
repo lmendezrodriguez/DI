@@ -11,35 +11,34 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.android.material.button.MaterialButton;
 import com.lmr.pajareandoapp.R;
 import com.lmr.pajareandoapp.adapters.BirdAdapter;
-import com.lmr.pajareandoapp.databinding.ActivityDashboardBinding;
-import com.lmr.pajareandoapp.viewmodels.DashboardViewModel;
+import com.lmr.pajareandoapp.databinding.ActivityFavouritesBinding;
+import com.lmr.pajareandoapp.viewmodels.FavouritesViewModel;
 
 import java.util.ArrayList;
 
 /**
- * Actividad principal del dashboard donde se muestran las aves disponibles.
- * Permite navegar a los detalles de cada ave y gestionar preferencias de usuario.
+ * Actividad que muestra la lista de aves favoritas del usuario.
+ * Permite visualizar detalles de cada ave y gestionar preferencias.
  */
-public class DashboardActivity extends AppCompatActivity {
-    private BirdAdapter birdAdapter; // Adaptador para la lista de aves
+public class FavouritesActivity extends AppCompatActivity {
+    private BirdAdapter birdAdapter; // Adaptador para la lista de aves favoritas
     private boolean isDarkMode; // Estado del modo oscuro
     private SharedPreferences sharedPreferences; // Preferencias de usuario
-    private ActivityDashboardBinding binding; // Binding para la vista
+    private ActivityFavouritesBinding binding; // Binding para la vista
     /**
-     * Método onCreate que inicializa la vista y configura los elementos de la UI.
+     * Método onCreate que inicializa la actividad y configura los elementos de la UI.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_favourites);
 
-        // Configura el ViewModel y el binding con la vista
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
-        DashboardViewModel dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
+        // Configura el ViewModel para gestionar los datos de las aves favoritas
+        FavouritesViewModel favouritesViewModel = new ViewModelProvider(this).get(FavouritesViewModel.class);
 
-        // Configura el adaptador con un listener para abrir los detalles de cada ave
+        // Configura el adaptador con un listener para abrir detalles de cada ave favorita
         birdAdapter = new BirdAdapter(new ArrayList<>(), birdId -> {
             Intent intent = new Intent(this, BirdDetailActivity.class);
             intent.putExtra("BIRD_ID", birdId);
@@ -50,12 +49,12 @@ public class DashboardActivity extends AppCompatActivity {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(birdAdapter);
 
-        // Observa los cambios en la lista de aves y actualiza el adaptador
-        dashboardViewModel.getBirdsLiveData().observe(this, birds -> {
+        // Observa los cambios en la lista de aves favoritas y actualiza el adaptador
+        favouritesViewModel.getFavouriteBirdsLiveData().observe(this, birds -> {
             if (birds != null) {
                 birdAdapter.setBirds(birds);
             } else {
-                Toast.makeText(this, "No se encontraron aves", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "No tienes aves favoritas", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -65,28 +64,28 @@ public class DashboardActivity extends AppCompatActivity {
         setDarkMode(isDarkMode);
 
         // Configuración de botones en la barra superior
-        MaterialButton favoriteButton = binding.topAppBar.findViewById(R.id.favoriteButton);
-        favoriteButton.setOnClickListener(v -> {
-            // Navega a la actividad de favoritos
-            Intent intent = new Intent(DashboardActivity.this, FavouritesActivity.class);
+        binding.backButton.setOnClickListener(v -> onSupportNavigateUp());
+        binding.logoutButton.setOnClickListener(v -> {
+            // Cierra sesión y vuelve a la pantalla de login
+            Intent intent = new Intent(FavouritesActivity.this, LoginActivity.class);
             startActivity(intent);
+            finish();
         });
-
-        MaterialButton darkModeButton = binding.topAppBar.findViewById(R.id.darkModeButton);
-        darkModeButton.setOnClickListener(v -> {
+        binding.darkModeButton.setOnClickListener(v -> {
             // Alterna el modo oscuro y guarda la preferencia
             isDarkMode = !isDarkMode;
             setDarkMode(isDarkMode);
         });
+    }
 
-        MaterialButton logoutButton = binding.topAppBar.findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(v -> {
-            // Cierra sesión y vuelve a la pantalla de login
-            Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish(); // Finaliza la actividad actual
-            dashboardViewModel.logoutUser(); // Cierra la sesión del usuario
-        });
+    /**
+     * Método para manejar la navegación hacia atrás.
+     * @return true si la navegación es exitosa.
+     */
+    @Override
+    public boolean onSupportNavigateUp() {
+        getOnBackPressedDispatcher().onBackPressed();
+        return true;
     }
 
     /**

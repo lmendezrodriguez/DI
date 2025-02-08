@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.lmr.pajareandoapp.models.Bird;
 import com.lmr.pajareandoapp.repositories.BirdRepository;
+import com.lmr.pajareandoapp.repositories.UserRepository;
 
 import java.util.List;
 
@@ -16,9 +17,11 @@ import java.util.List;
 public class DashboardViewModel extends ViewModel {
     private final MutableLiveData<List<Bird>> birdsLiveData = new MutableLiveData<>();
     private final BirdRepository birdRepository;
+    private final UserRepository userRepository;
 
     public DashboardViewModel() {
         birdRepository = new BirdRepository();
+        userRepository = new UserRepository();
         loadBirds();
     }
 
@@ -29,4 +32,5 @@ public class DashboardViewModel extends ViewModel {
     private void loadBirds() {
         birdRepository.getBirds(birdsLiveData);
     }
+    public void logoutUser() {this.userRepository.logoutUser();}
 }
