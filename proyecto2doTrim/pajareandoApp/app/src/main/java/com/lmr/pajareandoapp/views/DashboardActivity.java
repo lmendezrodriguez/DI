@@ -27,7 +27,7 @@ public class DashboardActivity extends AppCompatActivity {
     private BirdAdapter birdAdapter; // Adaptador para la lista de aves
     private boolean isDarkMode; // Estado del modo oscuro
     private SharedPreferences sharedPreferences; // Preferencias de usuario
-
+    private ActivityDashboardBinding binding; // Binding para la vista
     /**
      * Método onCreate que inicializa la vista y configura los elementos de la UI.
      */
@@ -36,7 +36,7 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Configura el ViewModel y el binding con la vista
-        ActivityDashboardBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
         DashboardViewModel dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
 
         // Configura el adaptador con un listener para abrir los detalles de cada ave
@@ -96,8 +96,10 @@ public class DashboardActivity extends AppCompatActivity {
     private void setDarkMode(boolean isDarkMode) {
         if (isDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            binding.darkModeButton.setIconResource(R.drawable.baseline_light_mode_24);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            binding.darkModeButton.setIconResource(R.drawable.baseline_dark_mode_24);
         }
 
         // Guarda la preferencia del modo oscuro en almacenamiento compartido

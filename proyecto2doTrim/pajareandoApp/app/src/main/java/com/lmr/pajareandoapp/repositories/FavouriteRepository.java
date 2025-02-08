@@ -43,7 +43,7 @@ public class FavouriteRepository {
 
         DatabaseReference favoritesRef = userRef.child(currentUser.getUid()).child("favorites");
 
-        favoritesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        favoritesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<String> favoriteBirdIds = new ArrayList<>();

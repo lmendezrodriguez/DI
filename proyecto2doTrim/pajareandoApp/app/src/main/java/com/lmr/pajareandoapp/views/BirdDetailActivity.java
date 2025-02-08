@@ -25,12 +25,15 @@ public class BirdDetailActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences; // Preferencias para guardar configuraciones como el modo oscuro
     private boolean isDarkMode; // Indica si el modo oscuro está habilitado
     private String birdId; // ID del ave seleccionado
-
+    private DetailBirdBinding binding;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         EdgeToEdge.enable(this); // Activa el diseño de pantalla completa
-        DetailBirdBinding binding = DataBindingUtil.setContentView(this, R.layout.detail_bird); // Enlaza la vista con la actividad
+
+        binding = DataBindingUtil.setContentView(this, R.layout.detail_bird); // Enlaza la vista con la actividad
 
         // Configura el ViewModel
         viewModel = new ViewModelProvider(this).get(BirdDetailViewModel.class);
@@ -102,8 +105,10 @@ public class BirdDetailActivity extends AppCompatActivity {
     private void setDarkMode(boolean isDarkMode) {
         if (isDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            binding.darkModeButton.setIconResource(R.drawable.baseline_light_mode_24);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            binding.darkModeButton.setIconResource(R.drawable.baseline_dark_mode_24);
         }
 
         // Guarda la preferencia del modo oscuro en almacenamiento compartido

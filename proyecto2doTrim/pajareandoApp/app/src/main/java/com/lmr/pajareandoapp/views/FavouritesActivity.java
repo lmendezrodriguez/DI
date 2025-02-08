@@ -26,14 +26,14 @@ public class FavouritesActivity extends AppCompatActivity {
     private BirdAdapter birdAdapter; // Adaptador para la lista de aves favoritas
     private boolean isDarkMode; // Estado del modo oscuro
     private SharedPreferences sharedPreferences; // Preferencias de usuario
-
+    private ActivityFavouritesBinding binding; // Binding para la vista
     /**
      * Método onCreate que inicializa la actividad y configura los elementos de la UI.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityFavouritesBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_favourites);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_favourites);
 
         // Configura el ViewModel para gestionar los datos de las aves favoritas
         FavouritesViewModel favouritesViewModel = new ViewModelProvider(this).get(FavouritesViewModel.class);
@@ -95,8 +95,10 @@ public class FavouritesActivity extends AppCompatActivity {
     private void setDarkMode(boolean isDarkMode) {
         if (isDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            binding.darkModeButton.setIconResource(R.drawable.baseline_light_mode_24);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            binding.darkModeButton.setIconResource(R.drawable.baseline_dark_mode_24);
         }
 
         // Guarda la preferencia del modo oscuro en almacenamiento compartido
