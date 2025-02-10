@@ -20,4 +20,23 @@
     <string name="bird_image">Bird image</string>
     <string name="logout">Logout</string>
     <string name="a_adir_a_favoritos">Añadir a favoritos</string>
+    <string name="todas_las_aves">Todas las Aves</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="bot_n_de_a_adir_a_favoritos">Botón de añadir a favoritos</string>
+    <string name="volver">Volver</string>
+    <string name="aves_favoritas">Aves Favoritas</string>
+    <string name="detalles_del_ave">Detalles del Ave</string>
+    <string name="activar_dark_mode">activar Dark Mode</string>
+    <string name="imagen_de_bird_commonname">Imagen de  + bird.commonName</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
 </resources>
