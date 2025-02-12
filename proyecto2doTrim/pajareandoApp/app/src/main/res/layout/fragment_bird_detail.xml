@@ -26,7 +26,9 @@
                 style="@style/ToolbarStyle"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:title="@{bird.commonName}"
+                app:titleCentered="true"/>
 
             <!-- Contenido principal con NestedScrollView -->
             <androidx.core.widget.NestedScrollView
