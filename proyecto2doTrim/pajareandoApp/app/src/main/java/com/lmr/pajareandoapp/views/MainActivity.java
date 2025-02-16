@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
                 openFragment(new DashboardFragment());
             } else if (id == R.id.nav_favourites) {
                 openFragment(new FavouritesFragment());
+            } else if (id == R.id.nav_profile) {
+               openFragment(new ProfileFragment());
             } else if (id == R.id.nav_logout) {
                 logoutUser();
             }
