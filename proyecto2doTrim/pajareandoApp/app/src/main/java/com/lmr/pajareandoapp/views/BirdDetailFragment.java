@@ -55,6 +55,11 @@ public class BirdDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Configurar el botón de retroceso en la barra de herramientas
+        binding.topAppBar.setNavigationOnClickListener(v -> {
+            requireActivity().getOnBackPressedDispatcher().onBackPressed(); // Regresar al fragmento anterior
+        });
+
         // Inicializa el ViewModel
         viewModel = new ViewModelProvider(this).get(BirdDetailViewModel.class);
 

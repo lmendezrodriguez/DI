@@ -117,7 +117,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Nueva contraseña"
-                        android:layout_marginTop="12dp">
+                        android:layout_marginTop="6dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_text_new_pass"
@@ -133,7 +133,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/repetir_contrase_a"
-                        android:layout_marginTop="12dp">
+                        android:layout_marginTop="6dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_text_confirm_pass"
@@ -149,7 +149,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/confirmar"
-                        android:layout_marginTop="24dp" />
+                        android:layout_marginTop="10dp" />
 
                     <!-- Switch para modo oscuro -->
                     <com.google.android.material.switchmaterial.SwitchMaterial
@@ -157,7 +157,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Dark Mode"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="10dp"
                         android:gravity="center_horizontal"/>
                 </LinearLayout>
 
