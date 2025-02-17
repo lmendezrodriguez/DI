@@ -1,5 +1,6 @@
 package com.lmr.pajareandoapp.views;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,9 +25,16 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Aplicar el modo oscuro según las preferencias
-        applyDarkMode();
+        // Cargar la preferencia del modo oscuro antes de establecer el contenido de la vista
+        SharedPreferences prefs = getSharedPreferences("AppConfig", Context.MODE_PRIVATE);
+        boolean isDarkMode = prefs.getBoolean("darkMode", false);
 
+        // Aplicar el modo oscuro o claro según la preferencia
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         setContentView(R.layout.activity_login);
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
@@ -34,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             if (authResult != null) {
                 if (authResult.isSuccess()) {
                     Toast.makeText(LoginActivity.this, authResult.getMessage(), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
                 } else {
                     Toast.makeText(LoginActivity.this, authResult.getMessage(), Toast.LENGTH_LONG).show();
@@ -46,20 +54,6 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.button_register).setOnClickListener(v ->
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
         );
-    }
-
-    /**
-     * Aplica el modo oscuro si está activado en SharedPreferences.
-     */
-    private void applyDarkMode() {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        boolean isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
-
-        if (isDarkMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
     }
 
     /**

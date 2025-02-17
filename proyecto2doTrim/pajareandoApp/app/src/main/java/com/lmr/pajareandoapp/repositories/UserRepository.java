@@ -18,6 +18,7 @@ import com.lmr.pajareandoapp.utils.AuthenticationResult;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Repositorio de usuarios en la aplicación Pajareando.
  */
@@ -207,4 +208,36 @@ public class UserRepository {
             }
         });
     }
+    /**
+     * Recupera la información del usuario autenticado desde la base de datos.
+     *
+     * @param userLiveData MutableLiveData para notificar al observador con el usuario recuperado.
+     */
+    public void getCurrentUser(MutableLiveData<User> userLiveData) {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null) {
+            userLiveData.postValue(null);
+            return;
+        }
+
+        String userUid = currentUser.getUid();
+        userRef.child(userUid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    User user = snapshot.getValue(User.class);
+                    userLiveData.postValue(user);
+                } else {
+                    userLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Error al obtener la información del usuario: " + error.getMessage());
+                userLiveData.postValue(null);
+            }
+        });
+    }
+
 }
