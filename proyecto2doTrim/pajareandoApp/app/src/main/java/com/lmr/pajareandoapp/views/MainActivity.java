@@ -11,50 +11,70 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.lmr.pajareandoapp.R;
 import com.lmr.pajareandoapp.databinding.ActivityMainBinding;
 
+/**
+ * MainActivity es la actividad principal de la aplicación.
+ * Gestiona la interfaz de usuario principal y la navegación entre fragmentos y el cierre de sesión.
+ */
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;  // DataBinding
+    private ActivityMainBinding binding;  // Instancia de DataBinding para acceder a la vista
 
+    /**
+     * Método llamado cuando la actividad es creada.
+     * Aquí se configura el DataBinding y se manejan los eventos de la navegación lateral.
+     *
+     * @param savedInstanceState Si la actividad se recrea, contiene el estado guardado de la actividad.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Configura el DataBinding con el layout 'activity_main'
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        // Manejamos los eventos del menú lateral
+        // Maneja los eventos del menú lateral
         binding.navigationView.setNavigationItemSelectedListener(item -> {
-            int id = item.getItemId();
+            int id = item.getItemId();  // Obtiene el ID del item seleccionado
             if (id == R.id.nav_dashboard) {
-                openFragment(new DashboardFragment());
+                openFragment(new DashboardFragment());  // Abre el DashboardFragment
             } else if (id == R.id.nav_favourites) {
-                openFragment(new FavouritesFragment());
+                openFragment(new FavouritesFragment());  // Abre el FavouritesFragment
             } else if (id == R.id.nav_profile) {
-               openFragment(new ProfileFragment());
+                openFragment(new ProfileFragment());  // Abre el ProfileFragment
             } else if (id == R.id.nav_logout) {
-                logoutUser();
+                logoutUser();  // Cierra sesión del usuario
             }
-            binding.drawerLayout.closeDrawers();
-            return true;
+            binding.drawerLayout.closeDrawers();  // Cierra el menú lateral
+            return true;  // Indica que el evento ha sido manejado
         });
 
-        // Cargar por defecto el DashboardFragment
+        // Si la actividad se está creando por primera vez, carga el fragmento de Dashboard
         if (savedInstanceState == null) {
             openFragment(new DashboardFragment());
         }
     }
 
+    /**
+     * Método para abrir un fragmento en el contenedor correspondiente.
+     *
+     * @param fragment El fragmento a mostrar.
+     */
     private void openFragment(Fragment fragment) {
         getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, fragment)
-                .commit();
+                .beginTransaction()  // Inicia la transacción del fragmento
+                .replace(R.id.fragmentContainer, fragment)  // Reemplaza el fragmento en el contenedor
+                .commit();  // Finaliza la transacción
     }
 
+    /**
+     * Método para cerrar la sesión del usuario.
+     * Después de cerrar sesión, redirige al usuario a la pantalla de login.
+     */
     private void logoutUser() {
-        FirebaseAuth.getInstance().signOut();
-        // Redireccionar a LoginActivity
+        FirebaseAuth.getInstance().signOut();  // Cierra sesión en Firebase
+        // Redirige al LoginActivity
         Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish(); // Para que no pueda volver con el botón atrás
+        startActivity(intent);  // Inicia la actividad de login
+        finish();  // Finaliza la actividad actual para evitar que el usuario regrese con el botón atrás
     }
 }
