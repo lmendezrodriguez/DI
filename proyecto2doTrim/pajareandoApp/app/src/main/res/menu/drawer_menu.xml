@@ -1,21 +1,30 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_dashboard"
-        android:title="Dashboard"
+        android:title="@string/dashboard"
+        android:contentDescription="@string/bot_n_para_navegar_a_dashboard"
         android:icon="@drawable/baseline_dashboard_24" />
 
     <item
         android:id="@+id/nav_favourites"
-        android:title="Favoritos"
+        android:title="@string/favoritos"
+        android:contentDescription="@string/bot_n_para_navegar_a_aves_favoritas"
         android:icon="@drawable/baseline_favorite_24" />
+    <item
+        android:id="@+id/nav_random"
+        android:title="@string/random"
+        android:contentDescription="@string/bot_n_para_navegar_a_p_jaro_aleatorio"
+        android:icon="@drawable/baseline_shuffle_24" />
 
     <item
         android:id="@+id/nav_profile"
-        android:title="Perfil"
+        android:title="@string/perfil"
+        android:contentDescription="@string/bot_n_para_navegar_a_perfil"
         android:icon="@drawable/baseline_person_24" />
 
     <item
         android:id="@+id/nav_logout"
-        android:title="Cerrar Sesión"
+        android:title="@string/cerrar_sesi_n"
+        android:contentDescription="@string/bot_n_para_cerrar_sesi_n"
         android:icon="@drawable/baseline_logout_24" />
 </menu>

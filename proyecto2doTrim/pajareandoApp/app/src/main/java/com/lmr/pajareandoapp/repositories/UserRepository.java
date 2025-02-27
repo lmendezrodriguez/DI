@@ -18,6 +18,22 @@ import com.lmr.pajareandoapp.utils.AuthenticationResult;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * Repositorio que centraliza todas las operaciones relacionadas con usuarios:
+ * - Autenticación (registro, login, logout)
+ * - Gestión de datos de usuario
+ * - Gestión de favoritos
+ * <p>
+ * Estructura en Firebase:
+ * /users
+ * /{userId}
+ * - name
+ * - email
+ * - telephone
+ * - address
+ * /favorites
+ * - [birdId1, birdId2, ...]
+ */
 
 /**
  * Repositorio de usuarios en la aplicación Pajareando.
@@ -41,16 +57,16 @@ public class UserRepository {
      *
      * @param userLiveData MutableLiveData para notificar al observador con la lista de usuarios.
      */
-    public void getUsers(MutableLiveData<List<User>> userLiveData) {
-        userRef.addValueEventListener(new ValueEventListener() {
+    public void getUsers(MutableLiveData<List<User>> userLiveData) { // MutableLiveData permite notificar a los observadores cuando los datos cambian en tiempo real
+        userRef.addValueEventListener(new ValueEventListener() { // ValueEventListener escucha los cambios en la base de datos
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) { // DataSnapshot contiene los datos de la base de datos
                 List<User> users = new ArrayList<>();
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                     User user = userSnapshot.getValue(User.class);
                     users.add(user);
                 }
-                userLiveData.postValue(users);
+                userLiveData.postValue(users); // Actualiza el LiveData con la lista de usuarios
             }
 
             @Override
@@ -146,9 +162,9 @@ public class UserRepository {
         DatabaseReference favoritesRef = userRef.child(currentUser.getUid()).child("favorites");
 
         // Obtener la lista de favoritos del usuario
-        favoritesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        favoritesRef.addListenerForSingleValueEvent(new ValueEventListener() { //Listener para obtener la lista de favorito
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) { // DataSnapshot contiene los datos de la base de datos
                 List<String> favorites = new ArrayList<>();
                 if (snapshot.exists()) {
                     for (DataSnapshot favSnapshot : snapshot.getChildren()) {
@@ -208,6 +224,7 @@ public class UserRepository {
             }
         });
     }
+
     /**
      * Recupera la información del usuario autenticado desde la base de datos.
      *

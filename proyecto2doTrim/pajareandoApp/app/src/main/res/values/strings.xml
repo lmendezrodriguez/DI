@@ -44,4 +44,14 @@
     <string name="cambia_tu_contrase_a">Cambia tu Contraseña</string>
     <string name="confirmar">Confirmar</string>
     <string name="repetir_contrase_a">Repetir contraseña</string>
+    <string name="generar_p_jaro_aleatorio">Generar pájaro aleatorio</string>
+    <string name="perfil">Perfil</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="favoritos">Favoritos</string>
+    <string name="random">Random</string>
+    <string name="bot_n_para_navegar_a_dashboard">Botón para navegar a Dashboard</string>
+    <string name="bot_n_para_navegar_a_aves_favoritas">Botón para navegar a aves favoritas</string>
+    <string name="bot_n_para_navegar_a_p_jaro_aleatorio">Botón para navegar a pájaro aleatorio</string>
+    <string name="bot_n_para_navegar_a_perfil">Botón para navegar a perfil</string>
+    <string name="bot_n_para_cerrar_sesi_n">Botón para cerrar sesión</string>
 </resources>

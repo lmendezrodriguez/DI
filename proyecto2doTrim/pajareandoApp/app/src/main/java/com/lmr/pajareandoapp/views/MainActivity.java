@@ -39,8 +39,12 @@ public class MainActivity extends AppCompatActivity {
                 openFragment(new DashboardFragment());  // Abre el DashboardFragment
             } else if (id == R.id.nav_favourites) {
                 openFragment(new FavouritesFragment());  // Abre el FavouritesFragment
+            }
+            else if (id == R.id.nav_random) {
+                openFragment(new RandomFragment());  // Abre el FavouritesFragment
             } else if (id == R.id.nav_profile) {
                 openFragment(new ProfileFragment());  // Abre el ProfileFragment
+
             } else if (id == R.id.nav_logout) {
                 logoutUser();  // Cierra sesión del usuario
             }
