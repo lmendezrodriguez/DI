@@ -57,7 +57,7 @@ public class ProfileFragment extends Fragment {
         // Observa los cambios del usuario y actualiza la vista
         userLiveData.observe(getViewLifecycleOwner(), user -> {
             if (user != null) {
-                binding.setUser(user);
+                binding.setUser(user); // DataBinding para actualizar UI automáticamente
             } else {
                 Toast.makeText(getContext(), "No se pudo recuperar la información del usuario", Toast.LENGTH_SHORT).show();
             }
@@ -86,19 +86,24 @@ public class ProfileFragment extends Fragment {
         String newPass = Objects.requireNonNull(binding.editTextNewPass.getText()).toString();
         String confirmPass = Objects.requireNonNull(binding.editTextConfirmPass.getText()).toString();
 
-        // Reautenticar al usuario antes de cambiar la contraseña
+        // Obtener usuario actual de Firebase Authentication
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        // Validaciones básicas
         if (user != null && !newPass.isEmpty() && !confirmPass.isEmpty()) {
             if (!newPass.equals(confirmPass)) {
                 Toast.makeText(getContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            AuthCredential credential = EmailAuthProvider
-                    .getCredential(Objects.requireNonNull(user.getEmail()), currentPass);
+            // Credenciales del usuario para reautenticación
+            AuthCredential credential = EmailAuthProvider.getCredential(
+                    Objects.requireNonNull(user.getEmail()), currentPass);
 
+            // Reautenticar usuario antes de permitir el cambio de contraseña
             user.reauthenticate(credential).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    // Si la reautenticación es exitosa, actualizar la contraseña
                     user.updatePassword(newPass).addOnCompleteListener(updateTask -> {
                         if (updateTask.isSuccessful()) {
                             Toast.makeText(getContext(), "Contraseña cambiada con éxito", Toast.LENGTH_SHORT).show();
